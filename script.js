@@ -1,117 +1,668 @@
-const caixaPrincipal = document.querySelector(".caixa-principal");
-const caixaPerguntas = document.querySelector(".caixa-perguntas");
-const caixaAlternativas = document.querySelector(".caixa-alternativas");
-const caixaResultado = document.querySelector(".caixa-resultado");
-const textoResultado = document.querySelector(".texto-resultado");
+const caixaPerguntas =
+    document.querySelector(".titulo-pergunta");
+
+const caixaAlternativas =
+    document.querySelector(".alternativas");
+
+const caixaMensagem =
+    document.querySelector(".mensagem");
+
+const nomePersonagem =
+    document.querySelector(".nome-personagem");
+
+const pontuacao =
+    document.querySelector(".pontuacao");
+
+const caminhoAtual =
+    document.querySelector(".caminho-atual");
+
+
+/*
+========================================
+PERGUNTAS DO JOGO
+========================================
+
+Cada pergunta possui:
+
+personagem
+pergunta
+alternativas
+
+Cada alternativa possui:
+
+texto
+proxima = número da próxima pergunta
+pontos = pontos ganhos
+mensagem = mensagem educativa
+*/
+
 
 const perguntas = [
+
+    /* 0 */
+
     {
-        enunciado: "Assim que saiu da escola você se depara com uma nova tecnologia, um chat que consegue responder todas as dúvidas que uma pessoa pode ter, ele também gera imagens e áudios hiper-realistas. Qual o primeiro pensamento?",
+        personagem: "Pensa-Pensa",
+
+        pergunta:
+            "Você acabou de entrar na Cidade Digital. Antes de começar sua aventura, o que deve fazer?",
+
         alternativas: [
+
             {
-                texto: "Isso é assustador!",
-                afirmacao: "afirmacao"
+                texto:
+                    "Pensar antes de clicar e procurar caminhos seguros.",
+
+                proxima: 1,
+
+                pontos: 10,
+
+                mensagem:
+                    "Boa escolha! Na internet, pensar antes de agir ajuda a evitar problemas."
             },
+
+
             {
-                texto: "Isso é maravilhoso!",
-                afirmacao: "afirmacao"
-            }           
-            
-        ]
-    },
-    {
-        enunciado: "Com a descoberta desta tecnologia, chamada Inteligência Artificial (IA), uma professora de tecnologia da escola decidiu fazer uma sequência de aulas sobre elaIA. No fim de uma aula ela pede que você escreva um trabalho sobre o uso de tecnologia em sala de aula. Qual atitude você toma?",
-        alternativas: [
-            {
-                texto:"Utilizar uma ferramenta de busca na internet que utiliza IA para que ela ajude a encontrar informações relevantes para o trabalho e explique numa linguagem que facilite o entendimento",
-                afirmacao:"afirmacao"
+                texto:
+                    "Clicar em todos os botões para descobrir o que acontece.",
+
+                proxima: 2,
+
+                pontos: 0,
+
+                mensagem:
+                    "Cuidado! Clicar sem verificar pode levar você para lugares perigosos."
             },
+
+
             {
-                texto: "Escrever o trabalho com base nas conversas que teve com colegas, algumas pesquisas na internet e conhecimentos próprios sobre o tema.",
-                afirmacao:"afirmacao"
+                texto:
+                    "Pedir ajuda a um adulto de confiança.",
+
+                proxima: 3,
+
+                pontos: 10,
+
+                mensagem:
+                    "Muito bem! Pedir ajuda é uma atitude inteligente quando algo parece estranho."
             }
+
         ]
     },
+
+
+    /* 1 */
+
     {
-        enunciado: "Após a elaboração do trabalho, a professora realizou um debate entre a turma para entender como foi realizada a pesquisa e escrita. Nessa conversa também foi levantado um ponto muito importante: como a IA impacta o trabalho do futuro. Nesse debate, como você se posiciona?",
+        personagem: "Senhor Senha",
+
+        pergunta:
+            "Um personagem misterioso pede sua senha para abrir uma porta secreta. O que você faz?",
+
         alternativas: [
+
             {
-                texto:"Me preocupo com as pessoas que perderão seus empregos para máquinas e defendem a importância de proteger os trabalhadores.",
-                afirmacao:"afirmacao"
+                texto:
+                    "Entrego minha senha porque ele prometeu ajudar.",
+
+                proxima: 4,
+
+                pontos: 0,
+
+                mensagem:
+                    "Senhas são pessoais. Nunca entregue sua senha para desconhecidos."
             },
+
+
             {
-                texto:"Defende a ideia de que a IA pode criar novas oportunidades de emprego e melhorar habilidades humanas.",
-                afirmacao:"afirmacao"
+                texto:
+                    "Não entrego e procuro um adulto de confiança.",
+
+                proxima: 5,
+
+                pontos: 10,
+
+                mensagem:
+                    "Excelente! Sua senha funciona como uma chave. Ela deve ficar protegida."
             }
-            
+
         ]
     },
+
+
+    /* 2 */
+
     {
-        enunciado: "Ao final da discussão, você precisou criar uma imagem no computador que representasse o que pensa sobre IA. E agora?",
+        personagem: "Capitão Isca",
+
+        pergunta:
+            "Você clicou em um botão sem verificar e apareceu uma mensagem dizendo que ganhou um prêmio. O que faz?",
+
         alternativas: [
+
             {
-                texto:"Criar uma imagem utilizando uma plataforma de design como o Paint.",
-                afirmacao:"afirmacao"
+                texto:
+                    "Continuo clicando para pegar o prêmio.",
+
+                proxima: 0,
+
+                pontos: 0,
+
+                mensagem:
+                    "Você voltou ao começo! Algumas mensagens usam prêmios para tentar enganar as pessoas."
             },
+
+
             {
-                texto:"Criar uma imagem utilizando um gerador de imagem de IA.",
-                afirmacao:"afirmacao"
+                texto:
+                    "Paro e peço ajuda antes de continuar.",
+
+                proxima: 6,
+
+                pontos: 10,
+
+                mensagem:
+                    "Boa! Parar quando algo parece estranho pode proteger você de golpes."
             }
-            
+
         ]
     },
+
+
+    /* 3 */
+
     {
-        enunciado: " Você tem um trabalho em grupo de biologia para entregar na semana seguinte, o andamento do trabalho está um pouco atrasado e uma pessoa do seu grupo decidiu fazer com ajuda de uma IA. O problema é que o trabalho está totalmente igual ao do chat. O que você faz?",
+        personagem: "Alerta",
+
+        pergunta:
+            "Você encontra uma mensagem assustadora na internet. Qual é a melhor atitude?",
+
         alternativas: [
+
             {
-                texto: "O chat pode ser uma tecnologia muito avançada, mas é preciso manter a atenção pois toda máquina erra, por isso revisar o trabalho e contribuir com as perspectivas pessoais é essencial.",
-                afirmacao:"afirmacao"
+                texto:
+                    "Resolver tudo sozinho.",
+
+                proxima: 2,
+
+                pontos: 0,
+
+                mensagem:
+                    "Quando algo assusta ou incomoda, você não precisa resolver sozinho."
             },
+
+
             {
-                texto: "Escrever comandos para o chat é uma forma de contribuir com o trabalho, por isso não é um problema utilizar o texto inteiro.",
-                afirmacao:"afirmacao"
+                texto:
+                    "Sair da situação e contar para um adulto.",
+
+                proxima: 7,
+
+                pontos: 10,
+
+                mensagem:
+                    "Muito bem! Adultos de confiança podem ajudar em situações difíceis."
             }
-            
-            
+
         ]
     },
+
+
+    /* 4 */
+
+    {
+        personagem: "Detetive Dado",
+
+        pergunta:
+            "Uma pessoa que você conheceu online pergunta seu endereço e telefone. O que você faz?",
+
+        alternativas: [
+
+            {
+                texto:
+                    "Passo as informações para fazer amizade.",
+
+                proxima: 3,
+
+                pontos: 0,
+
+                mensagem:
+                    "Informações pessoais precisam ser protegidas."
+            },
+
+
+            {
+                texto:
+                    "Não compartilho e procuro ajuda.",
+
+                proxima: 7,
+
+                pontos: 10,
+
+                mensagem:
+                    "Muito bem! Endereço e telefone são informações pessoais."
+            }
+
+        ]
+    },
+
+
+    /* 5 */
+
+    {
+        personagem: "Senhor Senha",
+
+        pergunta:
+            "Você encontrou uma porta que pode levar diretamente ao Portal Seguro. Qual é sua escolha?",
+
+        alternativas: [
+
+            {
+                texto:
+                    "Usar uma senha forte e seguir pelo caminho seguro.",
+
+                proxima: 8,
+
+                pontos: 20,
+
+                mensagem:
+                    "Você encontrou um ATALHO! Uma senha forte ajuda a proteger suas contas."
+            },
+
+
+            {
+                texto:
+                    "Usar a senha '123456'.",
+
+                proxima: 4,
+
+                pontos: 0,
+
+                mensagem:
+                    "Senhas fáceis são mais fáceis de descobrir. Você voltou para outra missão."
+            }
+
+        ]
+    },
+
+
+    /* 6 */
+
+    {
+        personagem: "Link",
+
+        pergunta:
+            "Um link parece interessante, mas você não conhece o site. O que deve fazer?",
+
+        alternativas: [
+
+            {
+                texto:
+                    "Verificar o link antes de clicar.",
+
+                proxima: 9,
+
+                pontos: 10,
+
+                mensagem:
+                    "Boa escolha! Ser curioso é ótimo, mas verificar primeiro é ainda melhor."
+            },
+
+
+            {
+                texto:
+                    "Clicar rapidamente.",
+
+                proxima: 2,
+
+                pontos: 0,
+
+                mensagem:
+                    "Ops! Você caiu novamente em uma armadilha."
+            }
+
+        ]
+    },
+
+
+    /* 7 */
+
+    {
+        personagem: "SuperAmigo",
+
+        pergunta:
+            "Você vê uma criança sendo ofendida em um jogo online. O que faz?",
+
+        alternativas: [
+
+            {
+                texto:
+                    "Participar das brincadeiras para não ficar de fora.",
+
+                proxima: 3,
+
+                pontos: 0,
+
+                mensagem:
+                    "Palavras também podem machucar. Cyberbullying não é brincadeira."
+            },
+
+
+            {
+                texto:
+                    "Ajudar a pessoa e procurar um adulto.",
+
+                proxima: 9,
+
+                pontos: 10,
+
+                mensagem:
+                    "Excelente! Respeito também deve existir nos jogos e nas redes."
+            }
+
+        ]
+    },
+
+
+    /* 8 */
+
+    {
+        personagem: "Gameiro",
+
+        pergunta:
+            "Você está jogando e outro jogador pede uma informação pessoal. O que faz?",
+
+        alternativas: [
+
+            {
+                texto:
+                    "Não compartilho meus dados.",
+
+                proxima: 9,
+
+                pontos: 10,
+
+                mensagem:
+                    "Muito bem! Jogos devem ser divertidos, mas a segurança vem primeiro."
+            },
+
+
+            {
+                texto:
+                    "Passo meus dados porque ele parece legal.",
+
+                proxima: 4,
+
+                pontos: 0,
+
+                mensagem:
+                    "Mesmo que alguém pareça legal, não devemos compartilhar informações pessoais."
+            }
+
+        ]
+    },
+
+
+    /* 9 */
+
+    {
+        personagem: "Fotinha",
+
+        pergunta:
+            "Você quer publicar uma foto. Qual pergunta deve fazer antes?",
+
+        alternativas: [
+
+            {
+                texto:
+                    "Eu gostaria que outras pessoas vissem essa foto?",
+
+                proxima: 10,
+
+                pontos: 10,
+
+                mensagem:
+                    "Muito bem! O que colocamos na internet pode ser salvo e compartilhado."
+            },
+
+
+            {
+                texto:
+                    "Quantas curtidas vou ganhar?",
+
+                proxima: 6,
+
+                pontos: 0,
+
+                mensagem:
+                    "Curtidas não são mais importantes que sua segurança. Você voltou para aprender."
+            }
+
+        ]
+    },
+
+
+    /* 10 */
+
+    {
+        personagem: "Pensa-Pensa",
+
+        pergunta:
+            "Você chegou perto do Portal Seguro! Qual pergunta deve fazer antes de clicar, postar ou compartilhar?",
+
+        alternativas: [
+
+            {
+                texto:
+                    "Será que isso é seguro?",
+
+                proxima: 11,
+
+                pontos: 20,
+
+                mensagem:
+                    "Você encontrou o caminho certo!"
+            },
+
+
+            {
+                texto:
+                    "Vou clicar primeiro e pensar depois.",
+
+                proxima: 2,
+
+                pontos: 0,
+
+                mensagem:
+                    "Ops! Pensar depois pode ser tarde demais. Você voltou para a aventura."
+            }
+
+        ]
+    },
+
+
+    /* 11 = FINAL */
+
+    {
+        personagem: "Todos os Guardiões",
+
+        pergunta:
+            "Você chegou ao Portal Seguro! Você aprendeu a proteger suas informações, desconfiar de golpes, respeitar outras pessoas e pensar antes de agir. Parabéns!",
+
+        alternativas: [],
+
+        final: true
+    }
+
 ];
 
-let atual = 0; 
-let perguntaAtual;
-let historiaFinal = "";
+
+let atual = 0;
+
+let pontos = 0;
+
+
+/*
+========================================
+MOSTRAR PERGUNTA
+========================================
+*/
+
 
 function mostraPergunta() {
-    if(atual >= perguntas.length){
-        mostraResultado();
-        return;
-    }
-    perguntaAtual = perguntas[atual];
-    caixaPerguntas.textContent = perguntaAtual.enunciado;
+
+    let perguntaAtual =
+        perguntas[atual];
+
+
+    nomePersonagem.textContent =
+        perguntaAtual.personagem;
+
+
+    caixaPerguntas.textContent =
+        perguntaAtual.pergunta;
+
+
+    pontuacao.textContent =
+        pontos;
+
+
     caixaAlternativas.textContent = "";
-    mostraAlternativas();
-}
 
-function mostraAlternativas(){
-    for(const alternativa of perguntaAtual.alternativas){
-        const botaoAlternativas = document.createElement("button");
-        botaoAlternativas.textContent = alternativa.texto;
-        botaoAlternativas.addEventListener("click", () => respostaSelecionada(alternativa));
-        caixaAlternativas.appendChild(botaoAlternativas);
+
+    caixaMensagem.textContent = "";
+
+
+    caminhoAtual.textContent =
+        "Aventura";
+
+
+    if (perguntaAtual.final == true) {
+
+        mostraFinal();
+
+        return;
+
     }
+
+
+    for (
+        let alternativa of perguntaAtual.alternativas
+    ) {
+
+        let botao =
+            document.createElement("button");
+
+
+        botao.textContent =
+            alternativa.texto;
+
+
+        botao.addEventListener(
+            "click",
+            function() {
+
+                escolher(alternativa);
+
+            }
+        );
+
+
+        caixaAlternativas.appendChild(
+            botao
+        );
+
+    }
+
 }
 
-function respostaSelecionada(opcaoSelecionada){
-    const afirmacoes = opcaoSelecionada.afirmacao;
-    historiaFinal += afirmacoes + " ";
-    atual++;
-    mostraPergunta();
+
+/*
+========================================
+ESCOLHA DO JOGADOR
+========================================
+*/
+
+
+function escolher(alternativa) {
+
+
+    pontos =
+        pontos + alternativa.pontos;
+
+
+    caixaMensagem.textContent =
+        alternativa.mensagem;
+
+
+    atual =
+        alternativa.proxima;
+
+
+    /*
+    Pequena pausa para o jogador
+    conseguir ler a mensagem.
+    */
+
+    setTimeout(
+        function() {
+
+            mostraPergunta();
+
+        },
+
+        900
+    );
+
 }
 
-function mostraResultado(){
-    caixaPerguntas.textContent = "Em 2049...";
-    textoResultado.textContent = historiaFinal;
-    caixaAlternativas.textContent = ""; 
+
+/*
+========================================
+FINAL
+========================================
+*/
+
+
+function mostraFinal() {
+
+    caminhoAtual.textContent =
+        "Portal Seguro";
+
+
+    caixaPerguntas.textContent =
+        "Parabéns! Você chegou ao Portal Seguro!";
+
+
+    caixaMensagem.textContent =
+        "Sua pontuação foi " +
+        pontos +
+        " pontos. Você aprendeu que segurança na internet começa com boas escolhas!";
+
+
+    let botao =
+        document.createElement("button");
+
+
+    botao.textContent =
+        "Jogar novamente";
+
+
+    botao.addEventListener(
+        "click",
+        function() {
+
+            location.reload();
+
+        }
+    );
+
+
+    caixaAlternativas.appendChild(
+        botao
+    );
+
 }
+
 
 mostraPergunta();

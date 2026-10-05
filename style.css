@@ -1,43 +1,918 @@
-:root{
-    --cor-fundo: #01080E ;
-    --cor-principal: #0B0D20 ;
-    --cor-secundaria: #212333; 
-    --cor-destaque: #2BDEFD;
-    --cor-texto: #D7F9FF;
+:root {
+
+    --azul: #4f80e1;
+
+    --azul-escuro: #304f91;
+
+    --azul-claro: #e5efff;
+
+    --roxo: #8061c7;
+
+    --roxo-claro: #eee8ff;
+
+    --verde: #48bea5;
+
+    --verde-claro: #e0f7f2;
+
+    --amarelo: #ffd166;
+
+    --amarelo-claro: #fff4cf;
+
+    --rosa: #f29ab5;
+
+    --fundo: #e5f5f6;
+
+    --branco: #ffffff;
+
+    --texto: #293653;
+
+    --cinza: #728099;
 
 }
+
+
+* {
+
+    box-sizing: border-box;
+
+}
+
 
 body {
-    background-color: var(--cor-fundo);
-    color: var(--cor-texto);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+    margin: 0;
+
     min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 25px;
+
+    font-family: Arial, sans-serif;
+
+    color: var(--texto);
+
+    background:
+
+        linear-gradient(
+            180deg,
+            #dff4f6,
+            #f0ebff
+        );
+
+    overflow-x: hidden;
+
 }
 
-.caixa-principal{
-    background-color: var(--cor-principal);
-    width: 90%;
-    max-width: 600px;
-    text-align: center;
-    padding: 20px;
+
+/* ==============================
+   CENÁRIO
+============================== */
+
+
+.nuvem {
+
+    position: fixed;
+
+    width: 140px;
+
+    height: 45px;
+
+    background: white;
+
+    border-radius: 50px;
+
+    opacity: 0.8;
+
+    z-index: -1;
+
+    animation: flutuar 8s infinite ease-in-out;
+
 }
 
-h1{
-    color: var(--cor-destaque);
+
+.nuvem::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 60px;
+
+    height: 60px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    left: 20px;
+
+    bottom: 8px;
+
 }
 
-button {
-    background-color: var(--cor-secundaria);
-    color: var(--cor-texto);
-    border: none;
-    border-radius: 15px;
+
+.nuvem::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 70px;
+
+    height: 70px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    right: 15px;
+
+    bottom: 5px;
+
+}
+
+
+.nuvem-1 {
+
+    top: 10%;
+
+    left: -40px;
+
+}
+
+
+.nuvem-2 {
+
+    bottom: 12%;
+
+    right: -50px;
+
+    animation-delay: 3s;
+
+}
+
+
+.estrela {
+
+    position: fixed;
+
+    width: 18px;
+
+    height: 18px;
+
+    border-radius: 50%;
+
+    background: var(--amarelo);
+
+    z-index: -1;
+
+    animation: piscar 2s infinite;
+
+}
+
+
+.estrela-1 {
+
+    top: 15%;
+
+    right: 15%;
+
+}
+
+
+.estrela-2 {
+
+    bottom: 25%;
+
+    left: 10%;
+
+    background: var(--rosa);
+
+    animation-delay: 1s;
+
+}
+
+
+.estrela-3 {
+
+    top: 35%;
+
+    left: 5%;
+
+    background: var(--verde);
+
+    animation-delay: 0.5s;
+
+}
+
+
+/* ==============================
+   JOGO
+============================== */
+
+
+.jogo {
+
+    width: 95%;
+
+    max-width: 800px;
+
+    background: white;
+
+    border-radius: 32px;
+
+    padding: 30px;
+
+    border: 4px solid white;
+
+    box-shadow:
+
+        0 12px 0 #c7dbe5,
+
+        0 25px 50px rgba(50, 70, 110, 0.15);
+
+    animation: entrar 0.7s ease;
+
+}
+
+
+/* ==============================
+   TOPO
+============================== */
+
+
+.topo {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    margin-bottom: 20px;
+
+}
+
+
+.logo {
+
+    width: 68px;
+
+    height: 68px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            var(--azul),
+            var(--roxo)
+        );
+
+    color: white;
+
+    border-radius: 22px;
+
+    font-size: 21px;
+
+    font-weight: bold;
+
+    border: 4px solid #dce6ff;
+
+    box-shadow:
+
+        0 6px 0 var(--azul-escuro);
+
+    animation: balanco 3s infinite ease-in-out;
+
+}
+
+
+h1 {
+
+    margin: 0;
+
+    color: var(--azul-escuro);
+
+    font-size: 29px;
+
+}
+
+
+.topo p {
+
+    margin: 5px 0 0;
+
+    color: var(--cinza);
+
+}
+
+
+/* ==============================
+   MAPA
+============================== */
+
+
+.mapa {
+
+    height: 110px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #eef5ff,
+            #f5efff
+        );
+
+    border-radius: 22px;
+
+    border: 3px solid #e1e7f3;
+
+    margin-bottom: 18px;
+
+    position: relative;
+
+    overflow: hidden;
+
+}
+
+
+/* caminho visual */
+
+.mapa::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 70%;
+
+    height: 6px;
+
+    background: #c9d8ee;
+
+    top: 52px;
+
+    left: 15%;
+
+    border-radius: 20px;
+
+}
+
+
+/* pontos */
+
+.ponto {
+
+    position: absolute;
+
+    width: 48px;
+
+    height: 48px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 50%;
+
+    color: white;
+
+    font-weight: bold;
+
+    border: 4px solid white;
+
+    box-shadow:
+
+        0 4px 0 rgba(50,70,110,0.2);
+
+    z-index: 2;
+
+}
+
+
+.inicio {
+
+    left: 7%;
+
+    top: 30px;
+
+    background: var(--azul);
+
+}
+
+
+.caminho-a {
+
+    left: 34%;
+
+    top: 12px;
+
+    background: var(--verde);
+
+}
+
+
+.caminho-b {
+
+    left: 50%;
+
+    top: 55px;
+
+    background: var(--amarelo);
+
+    color: #775b12;
+
+}
+
+
+.caminho-c {
+
+    left: 66%;
+
+    top: 12px;
+
+    background: var(--roxo);
+
+}
+
+
+.final {
+
+    right: 7%;
+
+    top: 30px;
+
+    background: var(--rosa);
+
+}
+
+
+/* ==============================
+   INFORMAÇÕES
+============================== */
+
+
+.informacoes {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 15px;
+
+}
+
+
+.informacoes div {
+
+    display: flex;
+
+    flex-direction: column;
+
+    padding: 8px 14px;
+
+    border-radius: 13px;
+
+    background: var(--azul-claro);
+
+}
+
+
+.informacoes div:last-child {
+
+    background: var(--verde-claro);
+
+}
+
+
+.informacoes span {
+
+    font-size: 9px;
+
+    color: var(--cinza);
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+}
+
+
+.informacoes strong {
+
+    margin-top: 3px;
+
+    color: var(--azul-escuro);
+
+}
+
+
+/* ==============================
+   CARTÃO
+============================== */
+
+
+.cartao {
+
+    padding: 28px;
+
+    background: #fbfcff;
+
+    border: 3px solid #e1e7f3;
+
+    border-radius: 25px;
+
+    box-shadow:
+
+        0 7px 0 #e1e6ef;
+
+    animation: aparecer 0.5s ease;
+
+}
+
+
+/* personagem */
+
+.personagem {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 20px;
+
+}
+
+
+.avatar {
+
+    width: 58px;
+
+    height: 58px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 18px;
+
+    background: var(--roxo-claro);
+
+    color: var(--roxo);
+
+    border: 3px solid #ddd3fa;
+
+    font-weight: bold;
+
+    box-shadow:
+
+        0 5px 0 #d5c9ec;
+
+}
+
+
+.personagem strong {
+
+    display: block;
+
+    color: var(--roxo);
+
+    font-size: 18px;
+
+}
+
+
+.personagem span {
+
+    display: block;
+
+    color: var(--cinza);
+
+    font-size: 12px;
+
+    margin-top: 3px;
+
+}
+
+
+/* pergunta */
+
+.pergunta h2 {
+
+    margin: 0 0 25px;
+
+    font-size: 21px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ==============================
+   ALTERNATIVAS
+============================== */
+
+
+.alternativas {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 13px;
+
+}
+
+
+.alternativas button {
+
+    width: 100%;
+
+    padding: 16px;
+
+    background: white;
+
+    border: 3px solid #dfe5ef;
+
+    border-radius: 17px;
+
+    color: var(--texto);
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    box-shadow:
+
+        0 5px 0 #dce2ec;
+
+    transition: 0.2s;
+
+}
+
+
+.alternativas button:hover {
+
+    background: var(--azul-claro);
+
+    border-color: var(--azul);
+
+    transform: translateY(-4px);
+
+    box-shadow:
+
+        0 9px 0 #cad8ed;
+
+}
+
+
+/* ==============================
+   MENSAGENS
+============================== */
+
+
+.mensagem {
+
+    margin-top: 18px;
+
     padding: 15px;
-    transition: background-color 0.3s;
+
+    background: var(--amarelo-claro);
+
+    border: 2px solid #ffe7a2;
+
+    border-radius: 15px;
+
+    color: #80651b;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
 }
 
-button:hover{
-    background-color: var(--cor-destaque);
-    color: var(--cor-principal);
+
+.dica {
+
+    text-align: center;
+
+    color: var(--cinza);
+
+    font-size: 12px;
+
+    margin: 20px 0 0;
+
+}
+
+
+/* ==============================
+   ANIMAÇÕES
+============================== */
+
+
+@keyframes entrar {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(30px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+
+@keyframes aparecer {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateX(25px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateX(0);
+
+    }
+
+}
+
+
+@keyframes balanco {
+
+    0%, 100% {
+
+        transform: rotate(-3deg);
+
+    }
+
+    50% {
+
+        transform: rotate(3deg);
+
+    }
+
+}
+
+
+@keyframes flutuar {
+
+    0%, 100% {
+
+        transform: translateX(0);
+
+    }
+
+    50% {
+
+        transform: translateX(25px);
+
+    }
+
+}
+
+
+@keyframes piscar {
+
+    0%, 100% {
+
+        transform: scale(1);
+
+        opacity: 0.7;
+
+    }
+
+    50% {
+
+        transform: scale(1.4);
+
+        opacity: 1;
+
+    }
+
+}
+
+
+/* ==============================
+   CELULAR
+============================== */
+
+
+@media (max-width: 600px) {
+
+    body {
+
+        padding: 12px;
+
+    }
+
+
+    .jogo {
+
+        width: 100%;
+
+        padding: 20px 16px;
+
+        border-radius: 25px;
+
+    }
+
+
+    .logo {
+
+        width: 55px;
+
+        height: 55px;
+
+    }
+
+
+    h1 {
+
+        font-size: 22px;
+
+    }
+
+
+    .topo p {
+
+        font-size: 12px;
+
+    }
+
+
+    .mapa {
+
+        height: 90px;
+
+    }
+
+
+    .ponto {
+
+        width: 40px;
+
+        height: 40px;
+
+        font-size: 12px;
+
+    }
+
+
+    .cartao {
+
+        padding: 20px 16px;
+
+    }
+
+
+    .pergunta h2 {
+
+        font-size: 17px;
+
+    }
+
+
+    .alternativas button {
+
+        font-size: 14px;
+
+    }
+
 }
