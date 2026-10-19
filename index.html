@@ -1,180 +1,179 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="style.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guardiões da Internet</title>
-
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
-
-
 <body>
 
+    <header class="topo">
+        <div class="logo">🛡️ Guardiões da Internet</div>
+        <p>Uma aventura pelo mundo digital!</p>
+    </header>
 
-    <!-- Elementos do cenário -->
+    <main class="container">
 
-    <div class="nuvem nuvem-1"></div>
+        <section id="tela-inicial" class="painel">
+            <div class="personagem-principal">🦸🏻‍♀️</div>
+            <p class="etiqueta">MISSÃO ESPECIAL</p>
+            <h1>A cidade digital precisa de você!</h1>
 
-    <div class="nuvem nuvem-2"></div>
+            <p>
+                A cidade dos Guardiões está em perigo!
+                Golpes, senhas fracas e pessoas mal-intencionadas
+                estão tentando invadir esse mundo.
+            </p>
 
-    <div class="estrela estrela-1"></div>
+            <p>
+                Escolha uma rota, responda aos desafios e ajude
+                os guardiões a proteger a internet. Cuidado:
+                uma escolha perigosa pode encerrar sua aventura!
+            </p>
 
-    <div class="estrela estrela-2"></div>
-
-    <div class="estrela estrela-3"></div>
-
-
-    <main class="jogo">
-
-
-        <!-- CABEÇALHO -->
-
-        <header class="topo">
-
-            <div class="logo">
-                GI
+            <div class="dica">
+                ✨ Dica: leia cada situação com atenção antes de escolher.
             </div>
 
-            <div>
+            <button id="botao-iniciar" class="botao principal">
+                Começar aventura →
+            </button>
+        </section>
 
-                <h1>
-                    Guardiões da Internet
-                </h1>
+        <section id="tela-rotas" class="painel escondido">
+            <p class="etiqueta">FASE 1</p>
+            <h1>Escolha seu caminho</h1>
+            <p>Todos os caminhos podem levar à vitória. Qual será sua estratégia?</p>
 
-                <p>
-                    Sua aventura começa agora!
-                </p>
+            <div class="rotas">
 
-            </div>
+                <button class="rota rota-rapida" data-rota="rapida">
+                    <span class="icone-rota">⚡</span>
+                    <h2>Atalho Relâmpago</h2>
+                    <p>3 desafios</p>
+                    <span>Rápido, mas exige atenção!</span>
+                </button>
 
-        </header>
+                <button class="rota rota-curta" data-rota="curta">
+                    <span class="icone-rota">🧭</span>
+                    <h2>Caminho Equilibrado</h2>
+                    <p>5 desafios</p>
+                    <span>Uma aventura com vários perigos.</span>
+                </button>
 
-
-        <!-- MAPA -->
-
-        <div class="mapa">
-
-            <div class="ponto inicio">
-                INÍCIO
-            </div>
-
-            <div class="linha linha-1"></div>
-
-            <div class="ponto caminho-a">
-                A
-            </div>
-
-            <div class="ponto caminho-b">
-                B
-            </div>
-
-            <div class="ponto caminho-c">
-                C
-            </div>
-
-            <div class="ponto final">
-                FINAL
-            </div>
-
-        </div>
-
-
-        <!-- INFORMAÇÕES -->
-
-        <div class="informacoes">
-
-            <div>
-
-                <span>
-                    PONTOS
-                </span>
-
-                <strong class="pontuacao">
-                    0
-                </strong>
+                <button class="rota rota-longa" data-rota="longa">
+                    <span class="icone-rota">🌙</span>
+                    <h2>Jornada dos Guardiões</h2>
+                    <p>7 desafios</p>
+                    <span>A missão mais longa e completa!</span>
+                </button>
 
             </div>
+        </section>
 
+        <section id="tela-jogo" class="painel escondido">
 
-            <div>
-
-                <span>
-                    CAMINHO
-                </span>
-
-                <strong class="caminho-atual">
-                    Início
-                </strong>
-
+            <div class="informacoes">
+                <span id="nome-rota">Sua aventura</span>
+                <span id="contador">Desafio 1</span>
             </div>
 
-        </div>
+            <div class="progresso">
+                <div id="barra-progresso"></div>
+            </div>
 
-
-        <!-- ÁREA DO JOGO -->
-
-        <section class="cartao">
-
-
-            <div class="personagem">
-
-                <div class="avatar">
-                    GI
+            <div class="tabuleiro">
+                <div class="inicio-fim">
+                    <span>🏰</span>
+                    <small>Castelo</small>
                 </div>
 
+                <div id="casas-tabuleiro" class="casas"></div>
+
+                <div class="inicio-fim">
+                    <span>🏆</span>
+                    <small>Vitória</small>
+                </div>
+            </div>
+
+            <div id="personagem" class="personagem">
+                <span id="emoji-personagem">🕵️</span>
                 <div>
-
-                    <strong class="nome-personagem">
-                        Guardião
-                    </strong>
-
-                    <span>
-                        Missão de segurança
-                    </span>
-
+                    <strong id="nome-personagem">Detetive Dado</strong>
+                    <p id="fala-personagem">Vamos proteger a cidade!</p>
                 </div>
-
             </div>
 
-
-            <div class="pergunta">
-
-                <h2 class="titulo-pergunta">
-                </h2>
-
+            <div class="caixa-pergunta">
+                <span class="etiqueta">DESAFIO DO GUARDIÃO</span>
+                <h2 id="pergunta">Carregando desafio...</h2>
+                <div id="alternativas" class="alternativas"></div>
+                <p id="feedback" class="feedback" aria-live="polite"></p>
+                <button id="botao-continuar" class="botao principal escondido">
+                    Avançar →
+                </button>
             </div>
-
-
-            <div class="alternativas">
-            </div>
-
-
-            <div class="mensagem">
-            </div>
-
 
         </section>
 
+        <section id="tela-final" class="painel escondido">
+            <div id="emoji-final" class="personagem-principal">🏆</div>
+            <p id="etiqueta-final" class="etiqueta">MISSÃO CONCLUÍDA</p>
+            <h1 id="titulo-final">Você conseguiu!</h1>
+            <p id="texto-final"></p>
 
-        <p class="dica">
+            <div class="dica">
+                🛡️ Lembre-se: na internet, pensar antes de agir
+                é uma das melhores formas de se proteger.
+            </div>
 
-            Pense com calma. Cada escolha pode mudar seu caminho.
-
-        </p>
-
+            <button id="botao-novamente" class="botao principal">
+                Jogar novamente ↻
+            </button>
+        </section>
 
     </main>
 
+    <footer class="rodape">
+        <h2>Sobre o projeto</h2>
+        <p>
+            Jogo educativo sobre segurança na internet,
+            privacidade, golpes, respeito e cidadania digital.
+        </p>
 
-    <script src="script.js"></script>
+        <p class="creditos">
+            <strong>Criadoras:</strong> Sofia Alixandrini e
+            Isabela Mendes de Anhaia
+            <br>
+            <strong>Instituição:</strong> Colégio Estadual do Paraná
+        </p>
+
+        <div class="fontes">
+            <strong>Fontes de pesquisa:</strong>
+            <a href="https://cartilha.cert.br/" target="_blank" rel="noopener noreferrer">
+                Cartilha de Segurança para Internet — CERT.br
+            </a>
+            <a href="https://new.safernet.org.br/" target="_blank" rel="noopener noreferrer">
+                SaferNet Brasil
+            </a>
+            <a href="https://www.gov.br/mdh/pt-br/assuntos/noticias/2026/defeso-eleitoral/setembro/seguranca-digital-como-proteger-criancas-e-adolescentes-no-ambiente-online"
+               target="_blank" rel="noopener noreferrer">
+                Ministério dos Direitos Humanos — Segurança digital
+            </a>
+            <a href="https://www.gov.br/mj/pt-br/assuntos/sua-protecao/sedigi/eca-digital/eca-digital-1/"
+               target="_blank" rel="noopener noreferrer">
+                Ministério da Justiça — ECA Digital
+            </a>
+        </div>
+
+        <p class="rodape-final">
+            Projeto escolar desenvolvido com HTML, CSS e JavaScript.
+            Elementos visuais feitos com CSS e emojis.
+        </p>
+    </footer>
 
 </body>
-
 </html>
+

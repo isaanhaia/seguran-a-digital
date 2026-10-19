@@ -1,668 +1,547 @@
-const caixaPerguntas =
-    document.querySelector(".titulo-pergunta");
-
-const caixaAlternativas =
-    document.querySelector(".alternativas");
-
-const caixaMensagem =
-    document.querySelector(".mensagem");
-
-const nomePersonagem =
-    document.querySelector(".nome-personagem");
-
-const pontuacao =
-    document.querySelector(".pontuacao");
-
-const caminhoAtual =
-    document.querySelector(".caminho-atual");
-
-
-/*
-========================================
-PERGUNTAS DO JOGO
-========================================
-
-Cada pergunta possui:
-
-personagem
-pergunta
-alternativas
-
-Cada alternativa possui:
-
-texto
-proxima = número da próxima pergunta
-pontos = pontos ganhos
-mensagem = mensagem educativa
+/* GUARDIÕES DA INTERNET
+   Criadoras: Sofia Alixandrini e Isabela Mendes de Anhaia
 */
 
+// ELEMENTOS DO HTML
+
+const telaInicial = document.querySelector("#tela-inicial");
+const telaRotas = document.querySelector("#tela-rotas");
+const telaJogo = document.querySelector("#tela-jogo");
+const telaFinal = document.querySelector("#tela-final");
+
+const botaoIniciar = document.querySelector("#botao-iniciar");
+const botaoContinuar = document.querySelector("#botao-continuar");
+const botaoNovamente = document.querySelector("#botao-novamente");
+
+const nomeRota = document.querySelector("#nome-rota");
+const contador = document.querySelector("#contador");
+const barraProgresso = document.querySelector("#barra-progresso");
+const casasTabuleiro = document.querySelector("#casas-tabuleiro");
+
+const emojiPersonagem = document.querySelector("#emoji-personagem");
+const nomePersonagem = document.querySelector("#nome-personagem");
+const falaPersonagem = document.querySelector("#fala-personagem");
+
+const pergunta = document.querySelector("#pergunta");
+const alternativas = document.querySelector("#alternativas");
+const feedback = document.querySelector("#feedback");
+
+// PERGUNTAS E DESAFIOS
 
 const perguntas = [
-
-    /* 0 */
-
-    {
-        personagem: "Pensa-Pensa",
-
-        pergunta:
-            "Você acabou de entrar na Cidade Digital. Antes de começar sua aventura, o que deve fazer?",
-
-        alternativas: [
-
-            {
-                texto:
-                    "Pensar antes de clicar e procurar caminhos seguros.",
-
-                proxima: 1,
-
-                pontos: 10,
-
-                mensagem:
-                    "Boa escolha! Na internet, pensar antes de agir ajuda a evitar problemas."
-            },
-
-
-            {
-                texto:
-                    "Clicar em todos os botões para descobrir o que acontece.",
-
-                proxima: 2,
-
-                pontos: 0,
-
-                mensagem:
-                    "Cuidado! Clicar sem verificar pode levar você para lugares perigosos."
-            },
-
-
-            {
-                texto:
-                    "Pedir ajuda a um adulto de confiança.",
-
-                proxima: 3,
-
-                pontos: 10,
-
-                mensagem:
-                    "Muito bem! Pedir ajuda é uma atitude inteligente quando algo parece estranho."
-            }
-
-        ]
-    },
-
-
-    /* 1 */
-
     {
         personagem: "Senhor Senha",
-
-        pergunta:
-            "Um personagem misterioso pede sua senha para abrir uma porta secreta. O que você faz?",
-
+        emoji: "🔐",
+        fala: "Vamos proteger nossas chaves digitais!",
+        pergunta: "Um site pede a senha da sua conta por uma mensagem inesperada. O que fazer?",
         alternativas: [
-
             {
-                texto:
-                    "Entrego minha senha porque ele prometeu ajudar.",
-
-                proxima: 4,
-
-                pontos: 0,
-
-                mensagem:
-                    "Senhas são pessoais. Nunca entregue sua senha para desconhecidos."
+                texto: "Enviar a senha para resolver o problema.",
+                correta: false,
+                explicacao: "Senhas são secretas! Nunca envie sua senha por mensagens inesperadas."
             },
-
-
             {
-                texto:
-                    "Não entrego e procuro um adulto de confiança.",
-
-                proxima: 5,
-
-                pontos: 10,
-
-                mensagem:
-                    "Excelente! Sua senha funciona como uma chave. Ela deve ficar protegida."
+                texto: "Não enviar a senha e verificar a situação com segurança.",
+                correta: true,
+                explicacao: "Correto! Proteja suas senhas e acesse suas contas pelos canais oficiais."
+            },
+            {
+                texto: "Usar a mesma senha em todas as contas.",
+                correta: false,
+                explicacao: "Usar a mesma senha em tudo aumenta os riscos se uma conta for invadida."
             }
-
         ]
     },
-
-
-    /* 2 */
-
-    {
-        personagem: "Capitão Isca",
-
-        pergunta:
-            "Você clicou em um botão sem verificar e apareceu uma mensagem dizendo que ganhou um prêmio. O que faz?",
-
-        alternativas: [
-
-            {
-                texto:
-                    "Continuo clicando para pegar o prêmio.",
-
-                proxima: 0,
-
-                pontos: 0,
-
-                mensagem:
-                    "Você voltou ao começo! Algumas mensagens usam prêmios para tentar enganar as pessoas."
-            },
-
-
-            {
-                texto:
-                    "Paro e peço ajuda antes de continuar.",
-
-                proxima: 6,
-
-                pontos: 10,
-
-                mensagem:
-                    "Boa! Parar quando algo parece estranho pode proteger você de golpes."
-            }
-
-        ]
-    },
-
-
-    /* 3 */
-
-    {
-        personagem: "Alerta",
-
-        pergunta:
-            "Você encontra uma mensagem assustadora na internet. Qual é a melhor atitude?",
-
-        alternativas: [
-
-            {
-                texto:
-                    "Resolver tudo sozinho.",
-
-                proxima: 2,
-
-                pontos: 0,
-
-                mensagem:
-                    "Quando algo assusta ou incomoda, você não precisa resolver sozinho."
-            },
-
-
-            {
-                texto:
-                    "Sair da situação e contar para um adulto.",
-
-                proxima: 7,
-
-                pontos: 10,
-
-                mensagem:
-                    "Muito bem! Adultos de confiança podem ajudar em situações difíceis."
-            }
-
-        ]
-    },
-
-
-    /* 4 */
 
     {
         personagem: "Detetive Dado",
-
-        pergunta:
-            "Uma pessoa que você conheceu online pergunta seu endereço e telefone. O que você faz?",
-
+        emoji: "🕵️",
+        fala: "Nem toda informação precisa ser compartilhada!",
+        pergunta: "Uma pessoa que você conheceu em um jogo pede seu endereço. O que fazer?",
         alternativas: [
-
             {
-                texto:
-                    "Passo as informações para fazer amizade.",
-
-                proxima: 3,
-
-                pontos: 0,
-
-                mensagem:
-                    "Informações pessoais precisam ser protegidas."
+                texto: "Enviar o endereço para fazer amizade.",
+                correta: false,
+                explicacao: "Seu endereço é um dado pessoal. Não compartilhe com desconhecidos."
             },
-
-
             {
-                texto:
-                    "Não compartilho e procuro ajuda.",
-
-                proxima: 7,
-
-                pontos: 10,
-
-                mensagem:
-                    "Muito bem! Endereço e telefone são informações pessoais."
+                texto: "Compartilhar apenas o nome da escola.",
+                correta: false,
+                explicacao: "O nome da escola também pode revelar informações sobre você."
+            },
+            {
+                texto: "Não compartilhar e conversar com um adulto de confiança.",
+                correta: true,
+                explicacao: "Correto! Preserve seus dados pessoais e peça ajuda quando necessário."
             }
-
         ]
     },
-
-
-    /* 5 */
 
     {
-        personagem: "Senhor Senha",
-
-        pergunta:
-            "Você encontrou uma porta que pode levar diretamente ao Portal Seguro. Qual é sua escolha?",
-
+        personagem: "Capitão Isca",
+        emoji: "🎣",
+        fala: "Cuidado com as armadilhas disfarçadas!",
+        pergunta: "Você recebe uma mensagem dizendo que ganhou um celular, mas precisa clicar em um link desconhecido. O que fazer?",
         alternativas: [
-
             {
-                texto:
-                    "Usar uma senha forte e seguir pelo caminho seguro.",
-
-                proxima: 8,
-
-                pontos: 20,
-
-                mensagem:
-                    "Você encontrou um ATALHO! Uma senha forte ajuda a proteger suas contas."
+                texto: "Clicar imediatamente para não perder o prêmio.",
+                correta: false,
+                explicacao: "Prêmios inesperados podem ser iscas para golpes. Não clique sem verificar."
             },
-
-
             {
-                texto:
-                    "Usar a senha '123456'.",
-
-                proxima: 4,
-
-                pontos: 0,
-
-                mensagem:
-                    "Senhas fáceis são mais fáceis de descobrir. Você voltou para outra missão."
+                texto: "Verificar a mensagem por um canal oficial e pedir ajuda se necessário.",
+                correta: true,
+                explicacao: "Correto! Desconfie de promessas exageradas e não forneça seus dados."
+            },
+            {
+                texto: "Informar seus dados bancários para receber o prêmio.",
+                correta: false,
+                explicacao: "Nunca forneça dados bancários para receber um prêmio suspeito."
             }
-
         ]
     },
-
-
-    /* 6 */
-
-    {
-        personagem: "Link",
-
-        pergunta:
-            "Um link parece interessante, mas você não conhece o site. O que deve fazer?",
-
-        alternativas: [
-
-            {
-                texto:
-                    "Verificar o link antes de clicar.",
-
-                proxima: 9,
-
-                pontos: 10,
-
-                mensagem:
-                    "Boa escolha! Ser curioso é ótimo, mas verificar primeiro é ainda melhor."
-            },
-
-
-            {
-                texto:
-                    "Clicar rapidamente.",
-
-                proxima: 2,
-
-                pontos: 0,
-
-                mensagem:
-                    "Ops! Você caiu novamente em uma armadilha."
-            }
-
-        ]
-    },
-
-
-    /* 7 */
-
-    {
-        personagem: "SuperAmigo",
-
-        pergunta:
-            "Você vê uma criança sendo ofendida em um jogo online. O que faz?",
-
-        alternativas: [
-
-            {
-                texto:
-                    "Participar das brincadeiras para não ficar de fora.",
-
-                proxima: 3,
-
-                pontos: 0,
-
-                mensagem:
-                    "Palavras também podem machucar. Cyberbullying não é brincadeira."
-            },
-
-
-            {
-                texto:
-                    "Ajudar a pessoa e procurar um adulto.",
-
-                proxima: 9,
-
-                pontos: 10,
-
-                mensagem:
-                    "Excelente! Respeito também deve existir nos jogos e nas redes."
-            }
-
-        ]
-    },
-
-
-    /* 8 */
-
-    {
-        personagem: "Gameiro",
-
-        pergunta:
-            "Você está jogando e outro jogador pede uma informação pessoal. O que faz?",
-
-        alternativas: [
-
-            {
-                texto:
-                    "Não compartilho meus dados.",
-
-                proxima: 9,
-
-                pontos: 10,
-
-                mensagem:
-                    "Muito bem! Jogos devem ser divertidos, mas a segurança vem primeiro."
-            },
-
-
-            {
-                texto:
-                    "Passo meus dados porque ele parece legal.",
-
-                proxima: 4,
-
-                pontos: 0,
-
-                mensagem:
-                    "Mesmo que alguém pareça legal, não devemos compartilhar informações pessoais."
-            }
-
-        ]
-    },
-
-
-    /* 9 */
 
     {
         personagem: "Fotinha",
-
-        pergunta:
-            "Você quer publicar uma foto. Qual pergunta deve fazer antes?",
-
+        emoji: "📸",
+        fala: "Pense antes de publicar!",
+        pergunta: "Você quer postar uma foto de um amigo na internet. Qual é a melhor atitude?",
         alternativas: [
-
             {
-                texto:
-                    "Eu gostaria que outras pessoas vissem essa foto?",
-
-                proxima: 10,
-
-                pontos: 10,
-
-                mensagem:
-                    "Muito bem! O que colocamos na internet pode ser salvo e compartilhado."
+                texto: "Publicar sem perguntar, porque a foto ficou bonita.",
+                correta: false,
+                explicacao: "Respeite a privacidade das outras pessoas e peça autorização antes de publicar."
             },
-
-
             {
-                texto:
-                    "Quantas curtidas vou ganhar?",
-
-                proxima: 6,
-
-                pontos: 0,
-
-                mensagem:
-                    "Curtidas não são mais importantes que sua segurança. Você voltou para aprender."
+                texto: "Pedir autorização ao amigo antes de publicar.",
+                correta: true,
+                explicacao: "Correto! Respeitar a privacidade também vale para fotos e vídeos."
+            },
+            {
+                texto: "Publicar e apagar depois, se ele reclamar.",
+                correta: false,
+                explicacao: "Uma imagem pode ser salva ou compartilhada antes de ser apagada."
             }
-
         ]
     },
 
+    {
+        personagem: "SuperAmigo",
+        emoji: "🤝",
+        fala: "Na internet, respeito também importa!",
+        pergunta: "Você vê colegas humilhando uma pessoa em um grupo. O que fazer?",
+        alternativas: [
+            {
+                texto: "Compartilhar as ofensas para que todos vejam.",
+                correta: false,
+                explicacao: "Compartilhar ofensas aumenta o sofrimento e espalha o cyberbullying."
+            },
+            {
+                texto: "Ficar em silêncio e participar das brincadeiras.",
+                correta: false,
+                explicacao: "Não participe das ofensas. Procure uma forma segura de ajudar."
+            },
+            {
+                texto: "Não espalhar as mensagens, apoiar a vítima e procurar um adulto.",
+                correta: true,
+                explicacao: "Correto! Respeito, apoio e ajuda de confiança são importantes."
+            }
+        ]
+    },
 
-    /* 10 */
+    {
+        personagem: "Camaleão",
+        emoji: "🦎",
+        fala: "Nem todo mundo é quem diz ser!",
+        pergunta: "Uma pessoa desconhecida diz ser da sua idade e pede uma foto pessoal. O que fazer?",
+        alternativas: [
+            {
+                texto: "Enviar a foto para provar que confia nela.",
+                correta: false,
+                explicacao: "Não envie fotos pessoais para desconhecidos. Perfis podem ser falsos."
+            },
+            {
+                texto: "Não enviar a foto e conversar com um adulto de confiança.",
+                correta: true,
+                explicacao: "Correto! Não confie rapidamente em desconhecidos e proteja sua privacidade."
+            },
+            {
+                texto: "Enviar a foto, desde que a pessoa também envie uma.",
+                correta: false,
+                explicacao: "Receber uma foto não garante que a pessoa seja quem afirma ser."
+            }
+        ]
+    },
+
+    {
+        personagem: "Gameiro",
+        emoji: "🎮",
+        fala: "Vamos manter os jogos divertidos e seguros!",
+        pergunta: "Durante um jogo online, alguém pede sua senha para dar moedas gratuitas. O que fazer?",
+        alternativas: [
+            {
+                texto: "Não fornecer a senha e verificar se a oferta é oficial.",
+                correta: true,
+                explicacao: "Correto! Proteja sua conta e desconfie de recompensas que exigem sua senha."
+            },
+            {
+                texto: "Compartilhar a senha para ganhar as moedas.",
+                correta: false,
+                explicacao: "Você pode perder sua conta. Nunca entregue sua senha a outros jogadores."
+            },
+            {
+                texto: "Enviar a senha para qualquer pessoa do mesmo time.",
+                correta: false,
+                explicacao: "Estar no mesmo time não significa que alguém seja confiável."
+            }
+        ]
+    },
+
+    {
+        personagem: "Alerta",
+        emoji: "🚨",
+        fala: "Você não precisa enfrentar perigos sozinho!",
+        pergunta: "Alguém na internet ameaça você e diz para não contar a ninguém. O que fazer?",
+        alternativas: [
+            {
+                texto: "Obedecer e guardar segredo.",
+                correta: false,
+                explicacao: "Ameaças não devem ser enfrentadas sozinhas. Procure um adulto de confiança."
+            },
+            {
+                texto: "Responder com ameaças ainda maiores.",
+                correta: false,
+                explicacao: "Evite aumentar o conflito. Priorize sua segurança e procure ajuda."
+            },
+            {
+                texto: "Parar de responder, guardar provas com segurança e pedir ajuda a um adulto.",
+                correta: true,
+                explicacao: "Correto! Você merece proteção. Um adulto pode ajudar a bloquear e denunciar."
+            }
+        ]
+    },
+
+    {
+        personagem: "Link",
+        emoji: "🔎",
+        fala: "Curiosidade é ótima quando vem com cuidado!",
+        pergunta: "Um anúncio estranho aparece no seu celular dizendo que ele está infectado. O que fazer?",
+        alternativas: [
+            {
+                texto: "Clicar em todos os botões do anúncio.",
+                correta: false,
+                explicacao: "O aviso pode ser falso. Não clique em anúncios suspeitos."
+            },
+            {
+                texto: "Não clicar e verificar o aparelho por meios confiáveis.",
+                correta: true,
+                explicacao: "Correto! Feche o anúncio e use ferramentas e canais confiáveis."
+            },
+            {
+                texto: "Instalar qualquer aplicativo indicado pelo anúncio.",
+                correta: false,
+                explicacao: "Aplicativos desconhecidos podem colocar seus dados em risco."
+            }
+        ]
+    },
 
     {
         personagem: "Pensa-Pensa",
-
-        pergunta:
-            "Você chegou perto do Portal Seguro! Qual pergunta deve fazer antes de clicar, postar ou compartilhar?",
-
+        emoji: "💭",
+        fala: "Respire, pense e escolha com cuidado!",
+        pergunta: "Você vê uma notícia muito surpreendente sendo compartilhada. Como agir?",
         alternativas: [
-
             {
-                texto:
-                    "Será que isso é seguro?",
-
-                proxima: 11,
-
-                pontos: 20,
-
-                mensagem:
-                    "Você encontrou o caminho certo!"
+                texto: "Compartilhar imediatamente para ser o primeiro.",
+                correta: false,
+                explicacao: "Notícias falsas podem se espalhar rapidamente. Evite compartilhar sem verificar."
             },
-
-
             {
-                texto:
-                    "Vou clicar primeiro e pensar depois.",
-
-                proxima: 2,
-
-                pontos: 0,
-
-                mensagem:
-                    "Ops! Pensar depois pode ser tarde demais. Você voltou para a aventura."
+                texto: "Verificar a fonte e comparar com outras fontes confiáveis.",
+                correta: true,
+                explicacao: "Correto! Conferir a informação ajuda a combater boatos e desinformação."
+            },
+            {
+                texto: "Acreditar porque muitas pessoas compartilharam.",
+                correta: false,
+                explicacao: "Popularidade não garante que uma informação seja verdadeira."
             }
-
         ]
-    },
-
-
-    /* 11 = FINAL */
-
-    {
-        personagem: "Todos os Guardiões",
-
-        pergunta:
-            "Você chegou ao Portal Seguro! Você aprendeu a proteger suas informações, desconfiar de golpes, respeitar outras pessoas e pensar antes de agir. Parabéns!",
-
-        alternativas: [],
-
-        final: true
     }
-
 ];
 
+// CONFIGURAÇÃO DOS CAMINHOS
 
-let atual = 0;
+const rotas = {
+    rapida: {
+        nome: "Atalho Relâmpago",
+        quantidade: 3,
+        vitoria: "Você atravessou o atalho com atenção e salvou a cidade digital!",
+        emoji: "⚡"
+    },
 
-let pontos = 0;
+    curta: {
+        nome: "Caminho Equilibrado",
+        quantidade: 5,
+        vitoria: "Você superou os desafios e ajudou os guardiões a proteger a cidade!",
+        emoji: "🧭"
+    },
 
-
-/*
-========================================
-MOSTRAR PERGUNTA
-========================================
-*/
-
-
-function mostraPergunta() {
-
-    let perguntaAtual =
-        perguntas[atual];
-
-
-    nomePersonagem.textContent =
-        perguntaAtual.personagem;
-
-
-    caixaPerguntas.textContent =
-        perguntaAtual.pergunta;
-
-
-    pontuacao.textContent =
-        pontos;
-
-
-    caixaAlternativas.textContent = "";
-
-
-    caixaMensagem.textContent = "";
-
-
-    caminhoAtual.textContent =
-        "Aventura";
-
-
-    if (perguntaAtual.final == true) {
-
-        mostraFinal();
-
-        return;
-
+    longa: {
+        nome: "Jornada dos Guardiões",
+        quantidade: 7,
+        vitoria: "Sua jornada foi longa, mas você aprendeu a enfrentar muitos perigos digitais!"
+            ,
+        emoji: "🌙"
     }
+};
 
+// VARIÁVEIS DO JOGO
 
-    for (
-        let alternativa of perguntaAtual.alternativas
-    ) {
+let rotaAtual;
+let desafios = [];
+let indiceAtual = 0;
+let jogoEncerrado = false;
+let respostaErrada = false;
 
-        let botao =
-            document.createElement("button");
+// INICIAR E ESCOLHER A ROTA
 
+botaoIniciar.addEventListener("click", function() {
+    mostrarTela(telaRotas);
+});
 
-        botao.textContent =
-            alternativa.texto;
+document.querySelectorAll(".rota").forEach(function(botao) {
+    botao.addEventListener("click", function() {
+        iniciarJogo(botao.dataset.rota);
+    });
+});
 
+// ESCOLHER UM ELEMENTO ALEATÓRIO
 
-        botao.addEventListener(
-            "click",
-            function() {
-
-                escolher(alternativa);
-
-            }
-        );
-
-
-        caixaAlternativas.appendChild(
-            botao
-        );
-
-    }
-
+function aleatorio(lista) {
+    const posicao = Math.floor(Math.random() * lista.length);
+    return lista[posicao];
 }
 
+// EMBARALHAR AS PERGUNTAS
 
-/*
-========================================
-ESCOLHA DO JOGADOR
-========================================
-*/
+function embaralhar(lista) {
+    const copia = [...lista];
 
+    for (let i = copia.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
 
-function escolher(alternativa) {
+        const temporaria = copia[i];
+        copia[i] = copia[j];
+        copia[j] = temporaria;
+    }
 
+    return copia;
+}
 
-    pontos =
-        pontos + alternativa.pontos;
+// COMEÇAR UMA NOVA AVENTURA
 
+function iniciarJogo(nome) {
+    rotaAtual = rotas[nome];
 
-    caixaMensagem.textContent =
-        alternativa.mensagem;
-
-
-    atual =
-        alternativa.proxima;
-
-
-    /*
-    Pequena pausa para o jogador
-    conseguir ler a mensagem.
-    */
-
-    setTimeout(
-        function() {
-
-            mostraPergunta();
-
-        },
-
-        900
+    desafios = embaralhar(perguntas).slice(
+        0,
+        rotaAtual.quantidade
     );
 
+    indiceAtual = 0;
+    jogoEncerrado = false;
+    respostaErrada = false;
+
+    nomeRota.textContent = rotaAtual.nome;
+    mostrarTela(telaJogo);
+    mostrarPergunta();
 }
 
+// MOSTRAR UMA TELA POR VEZ
 
-/*
-========================================
-FINAL
-========================================
-*/
+function mostrarTela(telaEscolhida) {
+    telaInicial.classList.add("escondido");
+    telaRotas.classList.add("escondido");
+    telaJogo.classList.add("escondido");
+    telaFinal.classList.add("escondido");
 
+    telaEscolhida.classList.remove("escondido");
+}
 
-function mostraFinal() {
+// ATUALIZAR O TABULEIRO
 
-    caminhoAtual.textContent =
-        "Portal Seguro";
+function atualizarTabuleiro() {
+    casasTabuleiro.innerHTML = "";
 
+    for (let i = 0; i < rotaAtual.quantidade; i++) {
+        const casa = document.createElement("div");
 
-    caixaPerguntas.textContent =
-        "Parabéns! Você chegou ao Portal Seguro!";
+        casa.classList.add("casa");
 
-
-    caixaMensagem.textContent =
-        "Sua pontuação foi " +
-        pontos +
-        " pontos. Você aprendeu que segurança na internet começa com boas escolhas!";
-
-
-    let botao =
-        document.createElement("button");
-
-
-    botao.textContent =
-        "Jogar novamente";
-
-
-    botao.addEventListener(
-        "click",
-        function() {
-
-            location.reload();
-
+        if (i < indiceAtual) {
+            casa.classList.add("concluida");
+            casa.textContent = "✓";
+        } else if (i === indiceAtual) {
+            casa.classList.add("atual");
+            casa.textContent = "★";
+        } else {
+            casa.textContent = i + 1;
         }
-    );
 
+        casasTabuleiro.appendChild(casa);
+    }
 
-    caixaAlternativas.appendChild(
-        botao
-    );
+    const porcentagem =
+        (indiceAtual / rotaAtual.quantidade) * 100;
 
+    barraProgresso.style.width = porcentagem + "%";
 }
 
+// MOSTRAR O DESAFIO ATUAL
 
-mostraPergunta();
+function mostrarPergunta() {
+    if (indiceAtual >= desafios.length) {
+        mostrarFinal(true);
+        return;
+    }
+
+    const desafio = desafios[indiceAtual];
+
+    atualizarTabuleiro();
+
+    contador.textContent =
+        "Desafio " + (indiceAtual + 1) +
+        " de " + rotaAtual.quantidade;
+
+    emojiPersonagem.textContent = desafio.emoji;
+    nomePersonagem.textContent = desafio.personagem;
+    falaPersonagem.textContent = desafio.fala;
+
+    pergunta.textContent = desafio.pergunta;
+
+    alternativas.innerHTML = "";
+    feedback.textContent = "";
+    feedback.className = "feedback";
+
+    botaoContinuar.classList.add("escondido");
+
+    desafio.alternativas.forEach(function(opcao) {
+        const botao = document.createElement("button");
+
+        botao.classList.add("alternativa");
+        botao.textContent = opcao.texto;
+
+        botao.addEventListener("click", function() {
+            verificarResposta(opcao, botao);
+        });
+
+        alternativas.appendChild(botao);
+    });
+}
+
+// VERIFICAR A RESPOSTA
+
+function verificarResposta(opcao, botaoEscolhido) {
+    if (jogoEncerrado) {
+        return;
+    }
+
+    const botoes = alternativas.querySelectorAll("button");
+
+    botoes.forEach(function(botao) {
+        botao.disabled = true;
+    });
+
+    if (opcao.correta) {
+        botaoEscolhido.classList.add("correta");
+
+        feedback.className = "feedback sucesso";
+        feedback.textContent =
+            "✓ Correto! Você avançou no tabuleiro.\n" +
+            opcao.explicacao;
+
+        indiceAtual++;
+        atualizarTabuleiro();
+
+        botaoContinuar.textContent =
+            indiceAtual === rotaAtual.quantidade
+                ? "Concluir missão 🏆"
+                : "Avançar →";
+
+    } else {
+        botaoEscolhido.classList.add("errada");
+
+        feedback.className = "feedback erro";
+        feedback.textContent =
+            "✗ Game Over! Você caiu em uma armadilha.\n" +
+            opcao.explicacao +
+            "\n\nNão desanime: aprender também faz parte da aventura!";
+
+        jogoEncerrado = true;
+        respostaErrada = true;
+
+        botaoContinuar.textContent = "Ver resultado";
+    }
+
+    botaoContinuar.classList.remove("escondido");
+}
+
+// AVANÇAR OU ENCERRAR A AVENTURA
+
+botaoContinuar.addEventListener("click", function() {
+    if (respostaErrada) {
+        mostrarFinal(false);
+    } else if (indiceAtual >= desafios.length) {
+        mostrarFinal(true);
+    } else {
+        mostrarPergunta();
+    }
+});
+
+// MOSTRAR A VITÓRIA OU O GAME OVER
+
+function mostrarFinal(venceu) {
+    jogoEncerrado = true;
+    mostrarTela(telaFinal);
+
+    const emojiFinal = document.querySelector("#emoji-final");
+    const tituloFinal = document.querySelector("#titulo-final");
+    const textoFinal = document.querySelector("#texto-final");
+    const etiquetaFinal = document.querySelector("#etiqueta-final");
+
+    if (venceu) {
+        emojiFinal.textContent = "🏆";
+        etiquetaFinal.textContent = "MISSÃO CONCLUÍDA";
+        tituloFinal.textContent = "Você salvou a cidade digital!";
+
+        textoFinal.textContent =
+            rotaAtual.vitoria +
+            " Você completou os " +
+            rotaAtual.quantidade +
+            " desafios do " +
+            rotaAtual.nome +
+            ". Continue usando a internet com responsabilidade!";
+
+    } else {
+        emojiFinal.textContent = "💜";
+        etiquetaFinal.textContent = "FIM DA AVENTURA";
+        tituloFinal.textContent = "Game Over! Vamos tentar de novo?";
+
+        textoFinal.textContent =
+            "O caminho foi interrompido, mas agora você sabe " +
+            "mais sobre segurança digital. " +
+            "Relembre a explicação do desafio e tente outra rota. " +
+            "Você pode chegar à vitória!";
+    }
+}
+
+// JOGAR NOVAMENTE
+
+botaoNovamente.addEventListener("click", function() {
+    indiceAtual = 0;
+    jogoEncerrado = false;
+    respostaErrada = false;
+
+    mostrarTela(telaRotas);
+});

@@ -1,918 +1,396 @@
+
+/* CORES DO PROJETO */
+/* CORES DO JOGO */
 :root {
-
-    --azul: #4f80e1;
-
-    --azul-escuro: #304f91;
-
-    --azul-claro: #e5efff;
-
-    --roxo: #8061c7;
-
-    --roxo-claro: #eee8ff;
-
-    --verde: #48bea5;
-
-    --verde-claro: #e0f7f2;
-
-    --amarelo: #ffd166;
-
-    --amarelo-claro: #fff4cf;
-
-    --rosa: #f29ab5;
-
-    --fundo: #e5f5f6;
-
-    --branco: #ffffff;
-
-    --texto: #293653;
-
-    --cinza: #728099;
-
+    --roxo: #9889a8;
+    --lilas: #c1b6cf;
+    --lilas-claro: #e0d6e7;
+    --fundo: #f5eff8;
+    --branco: #f9f7ff;
+    --texto: #352b40;
+    --destaque: #69517f;
+    --verde: #28734a;
+    --vermelho: #a63248;
 }
-
 
 * {
-
     box-sizing: border-box;
-
 }
-
 
 body {
-
     margin: 0;
-
-    min-height: 100vh;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    padding: 25px;
-
-    font-family: Arial, sans-serif;
-
+    background: var(--fundo);
     color: var(--texto);
-
-    background:
-
-        linear-gradient(
-            180deg,
-            #dff4f6,
-            #f0ebff
-        );
-
-    overflow-x: hidden;
-
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
 }
 
-
-/* ==============================
-   CENÁRIO
-============================== */
-
-
-.nuvem {
-
-    position: fixed;
-
-    width: 140px;
-
-    height: 45px;
-
-    background: white;
-
-    border-radius: 50px;
-
-    opacity: 0.8;
-
-    z-index: -1;
-
-    animation: flutuar 8s infinite ease-in-out;
-
+button {
+    font: inherit;
 }
-
-
-.nuvem::before {
-
-    content: "";
-
-    position: absolute;
-
-    width: 60px;
-
-    height: 60px;
-
-    background: white;
-
-    border-radius: 50%;
-
-    left: 20px;
-
-    bottom: 8px;
-
-}
-
-
-.nuvem::after {
-
-    content: "";
-
-    position: absolute;
-
-    width: 70px;
-
-    height: 70px;
-
-    background: white;
-
-    border-radius: 50%;
-
-    right: 15px;
-
-    bottom: 5px;
-
-}
-
-
-.nuvem-1 {
-
-    top: 10%;
-
-    left: -40px;
-
-}
-
-
-.nuvem-2 {
-
-    bottom: 12%;
-
-    right: -50px;
-
-    animation-delay: 3s;
-
-}
-
-
-.estrela {
-
-    position: fixed;
-
-    width: 18px;
-
-    height: 18px;
-
-    border-radius: 50%;
-
-    background: var(--amarelo);
-
-    z-index: -1;
-
-    animation: piscar 2s infinite;
-
-}
-
-
-.estrela-1 {
-
-    top: 15%;
-
-    right: 15%;
-
-}
-
-
-.estrela-2 {
-
-    bottom: 25%;
-
-    left: 10%;
-
-    background: var(--rosa);
-
-    animation-delay: 1s;
-
-}
-
-
-.estrela-3 {
-
-    top: 35%;
-
-    left: 5%;
-
-    background: var(--verde);
-
-    animation-delay: 0.5s;
-
-}
-
-
-/* ==============================
-   JOGO
-============================== */
-
-
-.jogo {
-
-    width: 95%;
-
-    max-width: 800px;
-
-    background: white;
-
-    border-radius: 32px;
-
-    padding: 30px;
-
-    border: 4px solid white;
-
-    box-shadow:
-
-        0 12px 0 #c7dbe5,
-
-        0 25px 50px rgba(50, 70, 110, 0.15);
-
-    animation: entrar 0.7s ease;
-
-}
-
-
-/* ==============================
-   TOPO
-============================== */
-
 
 .topo {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 18px;
-
-    margin-bottom: 20px;
-
+    text-align: center;
+    padding: 25px 15px;
+    background: var(--roxo);
+    color: white;
 }
-
 
 .logo {
-
-    width: 68px;
-
-    height: 68px;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    background:
-
-        linear-gradient(
-            135deg,
-            var(--azul),
-            var(--roxo)
-        );
-
-    color: white;
-
-    border-radius: 22px;
-
-    font-size: 21px;
-
+    font-size: 1.7rem;
     font-weight: bold;
-
-    border: 4px solid #dce6ff;
-
-    box-shadow:
-
-        0 6px 0 var(--azul-escuro);
-
-    animation: balanco 3s infinite ease-in-out;
-
 }
-
-
-h1 {
-
-    margin: 0;
-
-    color: var(--azul-escuro);
-
-    font-size: 29px;
-
-}
-
 
 .topo p {
-
     margin: 5px 0 0;
-
-    color: var(--cinza);
-
 }
 
-
-/* ==============================
-   MAPA
-============================== */
-
-
-.mapa {
-
-    height: 110px;
-
-    background:
-
-        linear-gradient(
-            135deg,
-            #eef5ff,
-            #f5efff
-        );
-
-    border-radius: 22px;
-
-    border: 3px solid #e1e7f3;
-
-    margin-bottom: 18px;
-
-    position: relative;
-
-    overflow: hidden;
-
+.container {
+    width: 92%;
+    max-width: 950px;
+    margin: 30px auto;
 }
 
-
-/* caminho visual */
-
-.mapa::before {
-
-    content: "";
-
-    position: absolute;
-
-    width: 70%;
-
-    height: 6px;
-
-    background: #c9d8ee;
-
-    top: 52px;
-
-    left: 15%;
-
-    border-radius: 20px;
-
+.painel {
+    padding: 30px;
+    background: var(--branco);
+    border: 2px solid var(--lilas-claro);
+    border-radius: 24px;
+    box-shadow: 0 8px 20px rgba(53, 43, 64, 0.08);
 }
 
+h1, h2, p {
+    overflow-wrap: break-word;
+}
 
-/* pontos */
+h1 {
+    line-height: 1.2;
+    color: var(--destaque);
+}
 
-.ponto {
+h2 {
+    line-height: 1.3;
+}
 
-    position: absolute;
+.personagem-principal {
+    font-size: 4rem;
+    text-align: center;
+    margin-bottom: 10px;
+}
 
-    width: 48px;
-
-    height: 48px;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    border-radius: 50%;
-
-    color: white;
-
+.etiqueta {
+    color: var(--destaque);
+    font-size: 0.8rem;
     font-weight: bold;
-
-    border: 4px solid white;
-
-    box-shadow:
-
-        0 4px 0 rgba(50,70,110,0.2);
-
-    z-index: 2;
-
+    letter-spacing: 2px;
 }
-
-
-.inicio {
-
-    left: 7%;
-
-    top: 30px;
-
-    background: var(--azul);
-
-}
-
-
-.caminho-a {
-
-    left: 34%;
-
-    top: 12px;
-
-    background: var(--verde);
-
-}
-
-
-.caminho-b {
-
-    left: 50%;
-
-    top: 55px;
-
-    background: var(--amarelo);
-
-    color: #775b12;
-
-}
-
-
-.caminho-c {
-
-    left: 66%;
-
-    top: 12px;
-
-    background: var(--roxo);
-
-}
-
-
-.final {
-
-    right: 7%;
-
-    top: 30px;
-
-    background: var(--rosa);
-
-}
-
-
-/* ==============================
-   INFORMAÇÕES
-============================== */
-
-
-.informacoes {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    margin-bottom: 15px;
-
-}
-
-
-.informacoes div {
-
-    display: flex;
-
-    flex-direction: column;
-
-    padding: 8px 14px;
-
-    border-radius: 13px;
-
-    background: var(--azul-claro);
-
-}
-
-
-.informacoes div:last-child {
-
-    background: var(--verde-claro);
-
-}
-
-
-.informacoes span {
-
-    font-size: 9px;
-
-    color: var(--cinza);
-
-    font-weight: bold;
-
-    letter-spacing: 1px;
-
-}
-
-
-.informacoes strong {
-
-    margin-top: 3px;
-
-    color: var(--azul-escuro);
-
-}
-
-
-/* ==============================
-   CARTÃO
-============================== */
-
-
-.cartao {
-
-    padding: 28px;
-
-    background: #fbfcff;
-
-    border: 3px solid #e1e7f3;
-
-    border-radius: 25px;
-
-    box-shadow:
-
-        0 7px 0 #e1e6ef;
-
-    animation: aparecer 0.5s ease;
-
-}
-
-
-/* personagem */
-
-.personagem {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-
-    margin-bottom: 20px;
-
-}
-
-
-.avatar {
-
-    width: 58px;
-
-    height: 58px;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    border-radius: 18px;
-
-    background: var(--roxo-claro);
-
-    color: var(--roxo);
-
-    border: 3px solid #ddd3fa;
-
-    font-weight: bold;
-
-    box-shadow:
-
-        0 5px 0 #d5c9ec;
-
-}
-
-
-.personagem strong {
-
-    display: block;
-
-    color: var(--roxo);
-
-    font-size: 18px;
-
-}
-
-
-.personagem span {
-
-    display: block;
-
-    color: var(--cinza);
-
-    font-size: 12px;
-
-    margin-top: 3px;
-
-}
-
-
-/* pergunta */
-
-.pergunta h2 {
-
-    margin: 0 0 25px;
-
-    font-size: 21px;
-
-    line-height: 1.5;
-
-}
-
-
-/* ==============================
-   ALTERNATIVAS
-============================== */
-
-
-.alternativas {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 13px;
-
-}
-
-
-.alternativas button {
-
-    width: 100%;
-
-    padding: 16px;
-
-    background: white;
-
-    border: 3px solid #dfe5ef;
-
-    border-radius: 17px;
-
-    color: var(--texto);
-
-    font-size: 15px;
-
-    font-weight: bold;
-
-    text-align: left;
-
-    cursor: pointer;
-
-    box-shadow:
-
-        0 5px 0 #dce2ec;
-
-    transition: 0.2s;
-
-}
-
-
-.alternativas button:hover {
-
-    background: var(--azul-claro);
-
-    border-color: var(--azul);
-
-    transform: translateY(-4px);
-
-    box-shadow:
-
-        0 9px 0 #cad8ed;
-
-}
-
-
-/* ==============================
-   MENSAGENS
-============================== */
-
-
-.mensagem {
-
-    margin-top: 18px;
-
-    padding: 15px;
-
-    background: var(--amarelo-claro);
-
-    border: 2px solid #ffe7a2;
-
-    border-radius: 15px;
-
-    color: #80651b;
-
-    font-size: 14px;
-
-    line-height: 1.5;
-
-}
-
 
 .dica {
+    background: var(--fundo);
+    border-left: 5px solid var(--roxo);
+    border-radius: 8px;
+    padding: 14px;
+    margin: 20px 0;
+}
 
+.botao {
+    border: none;
+    border-radius: 12px;
+    padding: 13px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.principal {
+    background: var(--destaque);
+    color: white;
+}
+
+.botao:hover {
+    transform: translateY(-2px);
+}
+
+.botao:focus-visible,
+.rota:focus-visible,
+.alternativa:focus-visible {
+    outline: 3px solid #352b40;
+    outline-offset: 4px;
+}
+
+.escondido {
+    display: none !important;
+}
+
+/* ESCOLHA DAS ROTAS */
+
+.rotas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.rota {
+    background: var(--fundo);
+    color: var(--texto);
+    border: 2px solid var(--lilas);
+    border-radius: 16px;
+    padding: 20px 12px;
+    cursor: pointer;
     text-align: center;
-
-    color: var(--cinza);
-
-    font-size: 12px;
-
-    margin: 20px 0 0;
-
 }
 
-
-/* ==============================
-   ANIMAÇÕES
-============================== */
-
-
-@keyframes entrar {
-
-    from {
-
-        opacity: 0;
-
-        transform: translateY(30px);
-
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform: translateY(0);
-
-    }
-
+.rota:hover {
+    background: var(--lilas-claro);
+    border-color: var(--destaque);
 }
 
-
-@keyframes aparecer {
-
-    from {
-
-        opacity: 0;
-
-        transform: translateX(25px);
-
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform: translateX(0);
-
-    }
-
+.rota h2 {
+    color: var(--destaque);
+    font-size: 1.15rem;
 }
 
-
-@keyframes balanco {
-
-    0%, 100% {
-
-        transform: rotate(-3deg);
-
-    }
-
-    50% {
-
-        transform: rotate(3deg);
-
-    }
-
+.rota p {
+    font-weight: bold;
 }
 
-
-@keyframes flutuar {
-
-    0%, 100% {
-
-        transform: translateX(0);
-
-    }
-
-    50% {
-
-        transform: translateX(25px);
-
-    }
-
+.rota span:last-child {
+    font-size: 0.9rem;
 }
 
-
-@keyframes piscar {
-
-    0%, 100% {
-
-        transform: scale(1);
-
-        opacity: 0.7;
-
-    }
-
-    50% {
-
-        transform: scale(1.4);
-
-        opacity: 1;
-
-    }
-
+.icone-rota {
+    font-size: 2.5rem;
 }
 
+/* TABULEIRO */
 
-/* ==============================
-   CELULAR
-============================== */
+.informacoes {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-weight: bold;
+    color: var(--destaque);
+}
 
+.progresso {
+    height: 12px;
+    background: var(--lilas-claro);
+    border-radius: 20px;
+    margin: 12px 0 22px;
+    overflow: hidden;
+}
 
-@media (max-width: 600px) {
+#barra-progresso {
+    height: 100%;
+    width: 0;
+    background: var(--destaque);
+    transition: width 0.3s;
+}
 
-    body {
+.tabuleiro {
+    padding: 18px;
+    background: var(--fundo);
+    border: 2px dashed var(--lilas);
+    border-radius: 18px;
+    margin-bottom: 20px;
+}
 
-        padding: 12px;
+.inicio-fim {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    color: var(--destaque);
+}
 
+.inicio-fim span {
+    font-size: 2rem;
+}
+
+.casas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin: 18px 0;
+}
+
+.casa {
+    width: 54px;
+    height: 54px;
+    border-radius: 14px;
+    background: var(--lilas-claro);
+    border: 2px solid var(--lilas);
+    color: var(--texto);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.15rem;
+    font-weight: bold;
+}
+
+.casa.atual {
+    background: var(--destaque);
+    color: white;
+    border-color: var(--destaque);
+    transform: scale(1.12);
+}
+
+.casa.concluida {
+    background: var(--roxo);
+    color: white;
+}
+
+/* PERSONAGEM */
+
+.personagem {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: var(--lilas-claro);
+    padding: 15px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+}
+
+#emoji-personagem {
+    font-size: 2.8rem;
+}
+
+.personagem p {
+    margin: 4px 0 0;
+}
+
+/* PERGUNTAS */
+
+.caixa-pergunta {
+    border: 2px solid var(--lilas-claro);
+    border-radius: 18px;
+    padding: 22px;
+}
+
+.caixa-pergunta h2 {
+    color: var(--texto);
+}
+
+.alternativas {
+    display: grid;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.alternativa {
+    background: var(--branco);
+    color: var(--texto);
+    border: 2px solid var(--lilas);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.alternativa:hover:not(:disabled) {
+    background: var(--lilas-claro);
+    border-color: var(--destaque);
+}
+
+.alternativa:disabled {
+    cursor: default;
+    opacity: 1;
+}
+
+.alternativa.correta {
+    border-color: var(--verde);
+    background: #e4f3e9;
+}
+
+.alternativa.errada {
+    border-color: var(--vermelho);
+    background: #fbe7eb;
+}
+
+.feedback {
+    font-weight: bold;
+    white-space: pre-line;
+}
+
+.feedback.sucesso {
+    color: var(--verde);
+}
+
+.feedback.erro {
+    color: var(--vermelho);
+}
+
+#botao-continuar {
+    margin-top: 10px;
+}
+
+/* CRÉDITOS */
+
+.rodape {
+    background: var(--lilas-claro);
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 40px;
+}
+
+.rodape h2 {
+    color: var(--destaque);
+}
+
+.creditos {
+    margin: 20px 0;
+}
+
+.fontes {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+
+.fontes a {
+    color: #49345f;
+    overflow-wrap: anywhere;
+}
+
+.fontes a:hover {
+    color: #24152f;
+}
+
+.rodape-final {
+    font-size: 0.85rem;
+    margin-top: 25px;
+}
+
+/* CELULARES E TABLETS */
+
+@media (max-width: 700px) {
+    .painel {
+        padding: 20px;
     }
 
-
-    .jogo {
-
-        width: 100%;
-
-        padding: 20px 16px;
-
-        border-radius: 25px;
-
+    .rotas {
+        grid-template-columns: 1fr;
     }
 
+    .informacoes {
+        font-size: 0.9rem;
+    }
+
+    .casa {
+        width: 43px;
+        height: 43px;
+        font-size: 1rem;
+    }
+
+    .casas {
+        gap: 8px;
+    }
 
     .logo {
-
-        width: 55px;
-
-        height: 55px;
-
+        font-size: 1.35rem;
     }
-
-
-    h1 {
-
-        font-size: 22px;
-
-    }
-
-
-    .topo p {
-
-        font-size: 12px;
-
-    }
-
-
-    .mapa {
-
-        height: 90px;
-
-    }
-
-
-    .ponto {
-
-        width: 40px;
-
-        height: 40px;
-
-        font-size: 12px;
-
-    }
-
-
-    .cartao {
-
-        padding: 20px 16px;
-
-    }
-
-
-    .pergunta h2 {
-
-        font-size: 17px;
-
-    }
-
-
-    .alternativas button {
-
-        font-size: 14px;
-
-    }
-
 }
