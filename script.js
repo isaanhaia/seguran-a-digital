@@ -2,8 +2,6 @@
    Criadoras: Sofia Alixandrini e Isabela Mendes de Anhaia
 */
 
-// ELEMENTOS DO HTML
-
 const telaInicial = document.querySelector("#tela-inicial");
 const telaRotas = document.querySelector("#tela-rotas");
 const telaJogo = document.querySelector("#tela-jogo");
