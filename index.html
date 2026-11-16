@@ -16,9 +16,11 @@
 
     <main class="container">
 
+        <!-- TELA INICIAL -->
         <section id="tela-inicial" class="painel">
-            <div class="personagem-principal"></div>
+            <div class="personagem-principal">🛡️</div>
             <p class="etiqueta">MISSÃO ESPECIAL</p>
+
             <h1>A cidade digital precisa de você!</h1>
 
             <p>
@@ -29,12 +31,14 @@
 
             <p>
                 Escolha uma rota, responda aos desafios e ajude
-                os guardiões a proteger a internet. Cuidado:
-                uma escolha perigosa pode encerrar sua aventura!
+                os guardiões a proteger a internet.
+                Suas decisões podem fazer você avançar mais rápido
+                ou colocar toda a missão em perigo!
             </p>
 
             <div class="dica">
-                ✨ Dica: leia cada situação com atenção antes de escolher.
+                ✨ Dica: leia cada situação com atenção.
+                Uma resposta errada pode encerrar sua aventura!
             </div>
 
             <button id="botao-iniciar" class="botao principal">
@@ -42,86 +46,107 @@
             </button>
         </section>
 
+        <!-- ESCOLHA DAS ROTAS -->
         <section id="tela-rotas" class="painel escondido">
+
             <p class="etiqueta">FASE 1</p>
             <h1>Escolha seu caminho</h1>
-            <p>Todos os caminhos podem levar à vitória. Qual será sua estratégia?</p>
+
+            <p>
+                Existem dois caminhos para chegar ao castelo.
+                Escolha sua rota e prepare-se para os desafios!
+            </p>
 
             <div class="rotas">
 
-                <button class="rota rota-rapida" data-rota="rapida">
+                <button class="rota rota-rapida" data-rota="aurora">
                     <span class="icone-rota">⚡</span>
-                    <h2>Atalho Relâmpago</h2>
-                    <p>3 desafios</p>
-                    <span>Rápido, mas exige atenção!</span>
+                    <h2>Trilha Aurora</h2>
+                    <p>10 desafios disponíveis</p>
+                    <span>Uma jornada pelo mundo digital.</span>
                 </button>
 
-                <button class="rota rota-curta" data-rota="curta">
-                    <span class="icone-rota">🔥</span>
-                    <h2>Caminho Equilibrado</h2>
-                    <p>5 desafios</p>
-                    <span>Uma aventura com vários perigos.</span>
-                </button>
-
-                <button class="rota rota-longa" data-rota="longa">
+                <button class="rota rota-curta" data-rota="oceano">
                     <span class="icone-rota">🌙</span>
-                    <h2>Jornada dos Guardiões</h2>
-                    <p>7 desafios</p>
-                    <span>A missão mais longa e completa!</span>
+                    <h2>Trilha Oceano</h2>
+                    <p>10 desafios disponíveis</p>
+                    <span>Uma jornada cheia de surpresas.</span>
                 </button>
 
             </div>
         </section>
 
+        <!-- TELA DO JOGO -->
         <section id="tela-jogo" class="painel escondido">
 
             <div class="informacoes">
                 <span id="nome-rota">Sua aventura</span>
-                <span id="contador">Desafio 1</span>
+                <span id="contador">Desafio 1 de 10</span>
             </div>
 
             <div class="progresso">
                 <div id="barra-progresso"></div>
             </div>
 
+            <!-- TABULEIRO -->
             <div class="tabuleiro">
+
                 <div class="inicio-fim">
                     <span>🏰</span>
-                    <small>Castelo</small>
+                    <small>Castelo inicial</small>
                 </div>
 
                 <div id="casas-tabuleiro" class="casas"></div>
 
                 <div class="inicio-fim">
                     <span>🏆</span>
-                    <small>Vitória</small>
+                    <small>Chegada</small>
                 </div>
+
             </div>
 
+            <!-- PERSONAGEM -->
             <div id="personagem" class="personagem">
                 <span id="emoji-personagem">🕵️</span>
+
                 <div>
                     <strong id="nome-personagem">Detetive Dado</strong>
-                    <p id="fala-personagem">Vamos proteger a cidade!</p>
+                    <p id="fala-personagem">
+                        Vamos proteger a cidade!
+                    </p>
                 </div>
             </div>
 
+            <!-- PERGUNTAS -->
             <div class="caixa-pergunta">
+
                 <span class="etiqueta">DESAFIO DO GUARDIÃO</span>
+
                 <h2 id="pergunta">Carregando desafio...</h2>
+
                 <div id="alternativas" class="alternativas"></div>
+
                 <p id="feedback" class="feedback" aria-live="polite"></p>
-                <button id="botao-continuar" class="botao principal escondido">
+
+                <button id="botao-continuar"
+                        class="botao principal escondido">
                     Avançar →
                 </button>
-            </div>
 
+            </div>
         </section>
 
+        <!-- TELA FINAL -->
         <section id="tela-final" class="painel escondido">
+
             <div id="emoji-final" class="personagem-principal">🏆</div>
-            <p id="etiqueta-final" class="etiqueta">MISSÃO CONCLUÍDA</p>
+
+            <p id="etiqueta-final" class="etiqueta">
+                MISSÃO CONCLUÍDA
+            </p>
+
             <h1 id="titulo-final">Você conseguiu!</h1>
+
             <p id="texto-final"></p>
 
             <div class="dica">
@@ -132,12 +157,20 @@
             <button id="botao-novamente" class="botao principal">
                 Jogar novamente ↻
             </button>
+
+            <button id="botao-escolher-rota" class="botao secundario">
+                Escolher outro caminho
+            </button>
+
         </section>
 
     </main>
 
+    <!-- RODAPÉ -->
     <footer class="rodape">
+
         <h2>Sobre o projeto</h2>
+
         <p>
             Jogo educativo sobre segurança na internet,
             privacidade, golpes, respeito e cidadania digital.
@@ -151,27 +184,36 @@
         </p>
 
         <div class="fontes">
+
             <strong>Fontes de pesquisa:</strong>
-            <a href="https://cartilha.cert.br/" target="_blank" rel="noopener noreferrer">
+
+            <a href="https://cartilha.cert.br/"
+               target="_blank" rel="noopener noreferrer">
                 Cartilha de Segurança para Internet — CERT.br
             </a>
-            <a href="https://new.safernet.org.br/" target="_blank" rel="noopener noreferrer">
+
+            <a href="https://new.safernet.org.br/"
+               target="_blank" rel="noopener noreferrer">
                 SaferNet Brasil
             </a>
+
             <a href="https://www.gov.br/mdh/pt-br/assuntos/noticias/2026/defeso-eleitoral/setembro/seguranca-digital-como-proteger-criancas-e-adolescentes-no-ambiente-online"
                target="_blank" rel="noopener noreferrer">
                 Ministério dos Direitos Humanos — Segurança digital
             </a>
+
             <a href="https://www.gov.br/mj/pt-br/assuntos/sua-protecao/sedigi/eca-digital/eca-digital-1/"
                target="_blank" rel="noopener noreferrer">
                 Ministério da Justiça — ECA Digital
             </a>
+
         </div>
 
         <p class="rodape-final">
             Projeto escolar desenvolvido com HTML, CSS e JavaScript.
             Elementos visuais feitos com CSS e emojis.
         </p>
+
     </footer>
 
 </body>

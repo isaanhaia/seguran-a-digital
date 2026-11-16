@@ -1,6 +1,5 @@
-
 /* CORES DO PROJETO */
-/* CORES DO JOGO */
+
 :root {
     --roxo: #9889a8;
     --lilas: #c1b6cf;
@@ -93,6 +92,8 @@ h2 {
     margin: 20px 0;
 }
 
+/* BOTÕES */
+
 .botao {
     border: none;
     border-radius: 12px;
@@ -105,6 +106,12 @@ h2 {
 .principal {
     background: var(--destaque);
     color: white;
+}
+
+.secundario {
+    background: var(--lilas-claro);
+    color: var(--destaque);
+    margin-top: 12px;
 }
 
 .botao:hover {
@@ -122,12 +129,12 @@ h2 {
     display: none !important;
 }
 
-/* ESCOLHA DAS ROTAS */
+/* ROTAS */
 
 .rotas {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
     margin-top: 25px;
 }
 
@@ -136,19 +143,21 @@ h2 {
     color: var(--texto);
     border: 2px solid var(--lilas);
     border-radius: 16px;
-    padding: 20px 12px;
+    padding: 25px 15px;
     cursor: pointer;
     text-align: center;
+    transition: 0.2s;
 }
 
 .rota:hover {
     background: var(--lilas-claro);
     border-color: var(--destaque);
+    transform: translateY(-3px);
 }
 
 .rota h2 {
     color: var(--destaque);
-    font-size: 1.15rem;
+    font-size: 1.2rem;
 }
 
 .rota p {
@@ -163,7 +172,7 @@ h2 {
     font-size: 2.5rem;
 }
 
-/* TABULEIRO */
+/* INFORMAÇÕES E PROGRESSO */
 
 .informacoes {
     display: flex;
@@ -187,6 +196,8 @@ h2 {
     background: var(--destaque);
     transition: width 0.3s;
 }
+
+/* TABULEIRO */
 
 .tabuleiro {
     padding: 18px;
@@ -228,6 +239,7 @@ h2 {
     align-items: center;
     font-size: 1.15rem;
     font-weight: bold;
+    transition: 0.3s;
 }
 
 .casa.atual {
@@ -288,6 +300,7 @@ h2 {
     padding: 14px;
     text-align: left;
     cursor: pointer;
+    transition: 0.2s;
 }
 
 .alternativa:hover:not(:disabled) {
@@ -325,6 +338,18 @@ h2 {
 
 #botao-continuar {
     margin-top: 10px;
+}
+
+/* TELA FINAL */
+
+#tela-final {
+    text-align: center;
+}
+
+#botao-novamente,
+#botao-escolher-rota {
+    display: block;
+    width: 100%;
 }
 
 /* CRÉDITOS */
@@ -368,6 +393,7 @@ h2 {
 /* CELULARES E TABLETS */
 
 @media (max-width: 700px) {
+
     .painel {
         padding: 20px;
     }
@@ -394,3 +420,4 @@ h2 {
         font-size: 1.35rem;
     }
 }
+
