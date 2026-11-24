@@ -1,740 +1,565 @@
-/* ==========================================
-   GUARDIÕES DA INTERNET
-   ========================================== */
+const $ = (seletor) => document.querySelector(seletor);
 
+const telaInicial = $("#tela-inicial");
+const telaRotas = $("#tela-rotas");
+const telaJogo = $("#tela-jogo");
+const telaFinal = $("#tela-final");
 
-const telaInicial = document.querySelector("#tela-inicial");
-const telaRotas = document.querySelector("#tela-rotas");
-const telaJogo = document.querySelector("#tela-jogo");
-const telaFinal = document.querySelector("#tela-final");
+const botaoIniciar = $("#botao-iniciar");
+const botaoContinuar = $("#botao-continuar");
+const botaoNovamente = $("#botao-novamente");
+const botaoEscolherRota = $("#botao-escolher-rota");
 
-const botaoIniciar = document.querySelector("#botao-iniciar");
-const botaoContinuar = document.querySelector("#botao-continuar");
-const botaoNovamente = document.querySelector("#botao-novamente");
-const botaoEscolherRota = document.querySelector("#botao-escolher-rota");
+const nomeRota = $("#nome-rota");
+const contador = $("#contador");
+const barraProgresso = $("#barra-progresso");
+const casasTabuleiro = $("#casas-tabuleiro");
 
-const nomeRota = document.querySelector("#nome-rota");
-const contador = document.querySelector("#contador");
-const barraProgresso = document.querySelector("#barra-progresso");
-const casasTabuleiro = document.querySelector("#casas-tabuleiro");
+const emojiPersonagem = $("#emoji-personagem");
+const nomePersonagem = $("#nome-personagem");
+const falaPersonagem = $("#fala-personagem");
 
-const emojiPersonagem = document.querySelector("#emoji-personagem");
-const nomePersonagem = document.querySelector("#nome-personagem");
-const falaPersonagem = document.querySelector("#fala-personagem");
+const perguntaElemento = $("#pergunta");
+const alternativasElemento = $("#alternativas");
+const feedback = $("#feedback");
 
-const pergunta = document.querySelector("#pergunta");
-const alternativas = document.querySelector("#alternativas");
-const feedback = document.querySelector("#feedback");
+const emojiFinal = $("#emoji-final");
+const etiquetaFinal = $("#etiqueta-final");
+const tituloFinal = $("#titulo-final");
+const textoFinal = $("#texto-final");
 
-const emojiFinal = document.querySelector("#emoji-final");
-const etiquetaFinal = document.querySelector("#etiqueta-final");
-const tituloFinal = document.querySelector("#titulo-final");
-const textoFinal = document.querySelector("#texto-final");
+/*
+  TIPOS DE DESAFIO
 
+  gameOver: uma resposta segura e duas respostas perigosas.
+            Qualquer resposta errada encerra a partida.
 
-/* BANCO DE PERGUNTAS
-   Cada rota possui dez desafios disponíveis.
+  normal:   as três respostas são aceitáveis.
+            "atalho" avança 3 casas; "normal" avança 1 casa.
 */
 
 const perguntas = [
+  {
+    personagem: "Senhor Senha",
+    emoji: "🔐",
+    fala: "Vamos proteger nossas chaves digitais!",
+    pergunta: "Uma mensagem inesperada diz que sua conta será bloqueada e pede sua senha. O que fazer?",
+    alternativas: [
+      {
+        texto: "Enviar a senha para evitar o bloqueio.",
+        correta: false,
+        explicacao: "Nunca envie sua senha por mensagens. Isso pode ser uma tentativa de golpe."
+      },
+      {
+        texto: "Não enviar a senha e conferir a situação pelo aplicativo ou site oficial.",
+        correta: true,
+        explicacao: "Correto! Confira avisos diretamente nos canais oficiais e nunca compartilhe sua senha."
+      },
+      {
+        texto: "Enviar a senha, mas depois trocá-la.",
+        correta: false,
+        explicacao: "Sua conta pode ser invadida antes que você consiga trocar a senha."
+      }
+    ]
+  },
 
-    {
-        personagem: "Senhor Senha",
-        emoji: "🔐",
-        fala: "Vamos proteger nossas chaves digitais!",
+  {
+    personagem: "Detetive Dado",
+    emoji: "🕵️",
+    fala: "Pequenas escolhas também protegem seus dados!",
+    pergunta: "Você quer deixar seu perfil em uma rede social mais seguro. Qual atitude é uma boa escolha?",
+    alternativas: [
+      {
+        texto: "Revisar as configurações de privacidade e limitar quem vê suas publicações.",
+        tipo: "atalho",
+        explicacao: "Ótima escolha! Revisar a privacidade ajuda a controlar quem acessa suas informações."
+      },
+      {
+        texto: "Evitar publicar informações pessoais, como endereço e rotina.",
+        tipo: "normal",
+        explicacao: "Boa atitude! Evitar dados pessoais reduz sua exposição."
+      },
+      {
+        texto: "Aceitar somente solicitações de pessoas que você conhece.",
+        tipo: "normal",
+        explicacao: "Boa atitude! Isso ajuda a manter sua rede de contatos mais segura."
+      }
+    ]
+  },
 
-        pergunta: "Um site pede a senha da sua conta por uma mensagem inesperada. O que fazer?",
+  {
+    personagem: "Capitão Isca",
+    emoji: "🎣",
+    fala: "Cuidado com as armadilhas disfarçadas!",
+    pergunta: "Você recebe um link dizendo que ganhou um celular e precisa informar seus dados para receber o prêmio. O que fazer?",
+    alternativas: [
+      {
+        texto: "Abrir o link e preencher os dados rapidamente.",
+        correta: false,
+        explicacao: "Prêmios inesperados podem ser iscas para roubar dados."
+      },
+      {
+        texto: "Encaminhar o link para amigos testarem primeiro.",
+        correta: false,
+        explicacao: "Repassar um link suspeito também pode colocar outras pessoas em risco."
+      },
+      {
+        texto: "Não clicar e verificar a promoção nos canais oficiais da empresa.",
+        correta: true,
+        explicacao: "Correto! Desconfie de prêmios inesperados e confirme a informação por canais oficiais."
+      }
+    ]
+  },
 
-        alternativas: [
-            {
-                texto: "Enviar a senha para resolver o problema.",
-                correta: false,
-                explicacao: "Senhas são secretas! Nunca envie sua senha por mensagens inesperadas."
-            },
-            {
-                texto: "Não enviar a senha e verificar a situação com segurança.",
-                correta: true,
-                explicacao: "Correto! Proteja suas senhas e acesse suas contas pelos canais oficiais."
-            },
-            {
-                texto: "Usar a mesma senha em todas as contas.",
-                correta: false,
-                explicacao: "Usar a mesma senha em tudo aumenta os riscos se uma conta for invadida."
-            }
-        ]
-    },
+  {
+    personagem: "Fotinha",
+    emoji: "📸",
+    fala: "Pense antes de publicar!",
+    pergunta: "Antes de publicar uma foto com outras pessoas, qual atitude demonstra respeito?",
+    alternativas: [
+      {
+        texto: "Pedir autorização a todas as pessoas que aparecem na foto.",
+        tipo: "atalho",
+        explicacao: "Excelente! Pedir autorização respeita a privacidade de todos."
+      },
+      {
+        texto: "Conferir se a foto não mostra informações pessoais ou localização.",
+        tipo: "normal",
+        explicacao: "Boa escolha! Observe o que aparece na imagem antes de publicar."
+      },
+      {
+        texto: "Compartilhar a foto apenas com um grupo pequeno e de confiança, após conversar com as pessoas.",
+        tipo: "normal",
+        explicacao: "Boa atitude! Mesmo em grupos menores, é importante respeitar a vontade das pessoas."
+      }
+    ]
+  },
 
-    {
-        personagem: "Detetive Dado",
-        emoji: "🕵️",
-        fala: "Nem toda informação precisa ser compartilhada!",
+  {
+    personagem: "SuperAmigo",
+    emoji: "🤝",
+    fala: "Na internet, respeito também importa!",
+    pergunta: "Em um grupo, colegas estão humilhando uma pessoa e pedem que você compartilhe as ofensas. O que fazer?",
+    alternativas: [
+      {
+        texto: "Compartilhar as mensagens para que mais pessoas vejam.",
+        correta: false,
+        explicacao: "Compartilhar ofensas amplia a exposição e o sofrimento da vítima."
+      },
+      {
+        texto: "Criar novas piadas para participar da brincadeira.",
+        correta: false,
+        explicacao: "Participar das agressões contribui para o cyberbullying."
+      },
+      {
+        texto: "Não compartilhar, apoiar a vítima e procurar ajuda de um adulto de confiança.",
+        correta: true,
+        explicacao: "Correto! Não espalhe as ofensas, apoie a vítima e procure ajuda."
+      }
+    ]
+  },
 
-        pergunta: "Uma pessoa que você conheceu em um jogo pede seu endereço. O que fazer?",
+  {
+    personagem: "Camaleão",
+    emoji: "🦎",
+    fala: "Cuide da sua privacidade!",
+    pergunta: "Você quer conversar com mais segurança com pessoas que conhece pela internet. O que pode fazer?",
+    alternativas: [
+      {
+        texto: "Manter informações pessoais e localização fora das conversas.",
+        tipo: "normal",
+        explicacao: "Boa escolha! Evitar dados pessoais ajuda a preservar sua privacidade."
+      },
+      {
+        texto: "Conversar apenas dentro da plataforma e usar as ferramentas de bloqueio e denúncia quando necessário.",
+        tipo: "atalho",
+        explicacao: "Ótima escolha! Permanecer na plataforma e conhecer seus recursos de proteção aumenta sua segurança."
+      },
+      {
+        texto: "Conversar com respeito e não aceitar pedidos que deixem você desconfortável.",
+        tipo: "normal",
+        explicacao: "Boa atitude! Você pode encerrar uma conversa sempre que se sentir desconfortável."
+      }
+    ]
+  },
 
-        alternativas: [
-            {
-                texto: "Enviar o endereço para fazer amizade.",
-                correta: false,
-                explicacao: "Seu endereço é um dado pessoal. Não compartilhe com desconhecidos."
-            },
-            {
-                texto: "Compartilhar apenas o nome da escola.",
-                correta: false,
-                explicacao: "O nome da escola também pode revelar informações sobre você."
-            },
-            {
-                texto: "Não compartilhar e conversar com um adulto de confiança.",
-                correta: true,
-                explicacao: "Correto! Preserve seus dados pessoais e peça ajuda quando necessário."
-            }
-        ]
-    },
+  {
+    personagem: "Gameiro",
+    emoji: "🎮",
+    fala: "Vamos manter os jogos divertidos e seguros!",
+    pergunta: "Você quer proteger melhor sua conta em um jogo online. Qual atitude ajuda?",
+    alternativas: [
+      {
+        texto: "Ativar a verificação em duas etapas, se o jogo oferecer esse recurso.",
+        tipo: "atalho",
+        explicacao: "Ótima escolha! A verificação em duas etapas adiciona uma camada de proteção à conta."
+      },
+      {
+        texto: "Usar uma senha forte e diferente das senhas de outras contas.",
+        tipo: "normal",
+        explicacao: "Boa atitude! Senhas fortes e exclusivas ajudam a proteger seu perfil."
+      },
+      {
+        texto: "Manter o jogo e o dispositivo atualizados.",
+        tipo: "normal",
+        explicacao: "Boa escolha! Atualizações podem corrigir falhas de segurança."
+      }
+    ]
+  },
 
-    {
-        personagem: "Capitão Isca",
-        emoji: "🎣",
-        fala: "Cuidado com as armadilhas disfarçadas!",
+  {
+    personagem: "Dona Verifica",
+    emoji: "🔎",
+    fala: "Investigue antes de acreditar!",
+    pergunta: "Você recebe uma notícia importante e quer descobrir se ela é verdadeira. Qual é uma boa atitude?",
+    alternativas: [
+      {
+        texto: "Conferir a data, a origem e se outros veículos confiáveis confirmam a informação.",
+        tipo: "atalho",
+        explicacao: "Excelente! Conferir origem, data e outras fontes é uma ótima forma de verificar."
+      },
+      {
+        texto: "Pesquisar o assunto em sites de instituições e veículos reconhecidos.",
+        tipo: "normal",
+        explicacao: "Boa escolha! Consultar fontes confiáveis ajuda a avaliar a notícia."
+      },
+      {
+        texto: "Esperar um pouco antes de compartilhar até ter mais informações.",
+        tipo: "normal",
+        explicacao: "Boa atitude! Não compartilhar imediatamente evita espalhar possíveis informações falsas."
+      }
+    ]
+  },
 
-        pergunta: "Você recebe uma mensagem dizendo que ganhou um celular, mas precisa clicar em um link desconhecido. O que fazer?",
+  {
+    personagem: "Escudo Digital",
+    emoji: "🛡️",
+    fala: "Sua conta merece uma proteção extra!",
+    pergunta: "Você está usando um computador público para acessar sua conta. O que deve fazer ao terminar?",
+    alternativas: [
+      {
+        texto: "Salvar a senha no navegador para facilitar o próximo acesso.",
+        correta: false,
+        explicacao: "Em computadores públicos, outras pessoas podem acessar senhas salvas."
+      },
+      {
+        texto: "Deixar a conta aberta para continuar depois.",
+        correta: false,
+        explicacao: "Uma sessão aberta permite que outras pessoas acessem sua conta."
+      },
+      {
+        texto: "Sair da conta, não salvar a senha e fechar o navegador.",
+        correta: true,
+        explicacao: "Correto! Encerre a sessão e não deixe seus dados salvos em computadores públicos."
+      }
+    ]
+  },
 
-        alternativas: [
-            {
-                texto: "Clicar imediatamente para não perder o prêmio.",
-                correta: false,
-                explicacao: "Prêmios inesperados podem ser iscas para golpes. Não clique sem verificar."
-            },
-            {
-                texto: "Verificar a mensagem por um canal oficial e pedir ajuda se necessário.",
-                correta: true,
-                explicacao: "Correto! Desconfie de promessas exageradas e não forneça seus dados."
-            },
-            {
-                texto: "Informar seus dados bancários para receber o prêmio.",
-                correta: false,
-                explicacao: "Nunca forneça dados bancários para receber um prêmio suspeito."
-            }
-        ]
-    },
-
-    {
-        personagem: "Fotinha",
-        emoji: "📸",
-        fala: "Pense antes de publicar!",
-
-        pergunta: "Você quer postar uma foto de um amigo na internet. Qual é a melhor atitude?",
-
-        alternativas: [
-            {
-                texto: "Publicar sem perguntar, porque a foto ficou bonita.",
-                correta: false,
-                explicacao: "Respeite a privacidade das outras pessoas e peça autorização antes de publicar."
-            },
-            {
-                texto: "Pedir autorização ao amigo antes de publicar.",
-                correta: true,
-                explicacao: "Correto! Respeitar a privacidade também vale para fotos e vídeos."
-            },
-            {
-                texto: "Publicar e apagar depois, se ele reclamar.",
-                correta: false,
-                explicacao: "Uma imagem pode ser salva ou compartilhada antes de ser apagada."
-            }
-        ]
-    },
-
-    {
-        personagem: "SuperAmigo",
-        emoji: "🤝",
-        fala: "Na internet, respeito também importa!",
-
-        pergunta: "Você vê colegas humilhando uma pessoa em um grupo. O que fazer?",
-
-        alternativas: [
-            {
-                texto: "Compartilhar as ofensas para que todos vejam.",
-                correta: false,
-                explicacao: "Compartilhar ofensas aumenta o sofrimento e espalha o cyberbullying."
-            },
-            {
-                texto: "Ficar em silêncio e participar das brincadeiras.",
-                correta: false,
-                explicacao: "Não participe das ofensas. Procure uma forma segura de ajudar."
-            },
-            {
-                texto: "Não espalhar as mensagens, apoiar a vítima e procurar um adulto.",
-                correta: true,
-                explicacao: "Correto! Respeito, apoio e ajuda de confiança são importantes."
-            }
-        ]
-    },
-
-    {
-        personagem: "Camaleão",
-        emoji: "🦎",
-        fala: "Nem todo mundo é quem diz ser!",
-
-        pergunta: "Uma pessoa desconhecida diz ser da sua idade e pede uma foto pessoal. O que fazer?",
-
-        alternativas: [
-            {
-                texto: "Enviar a foto para provar que confia nela.",
-                correta: false,
-                explicacao: "Não envie fotos pessoais para desconhecidos. Perfis podem ser falsos."
-            },
-            {
-                texto: "Não enviar a foto e conversar com um adulto de confiança.",
-                correta: true,
-                explicacao: "Correto! Não confie rapidamente em desconhecidos e proteja sua privacidade."
-            },
-            {
-                texto: "Enviar a foto, desde que a pessoa também envie uma.",
-                correta: false,
-                explicacao: "Receber uma foto não garante que a pessoa seja quem afirma ser."
-            }
-        ]
-    },
-
-    {
-        personagem: "Gameiro",
-        emoji: "🎮",
-        fala: "Vamos manter os jogos divertidos e seguros!",
-
-        pergunta: "Durante um jogo online, alguém pede sua senha para dar moedas gratuitas. O que fazer?",
-
-        alternativas: [
-            {
-                texto: "Não fornecer a senha e verificar se a oferta é oficial.",
-                correta: true,
-                explicacao: "Correto! Proteja sua conta e desconfie de recompensas que exigem sua senha."
-            },
-            {
-                texto: "Compartilhar a senha para ganhar as moedas.",
-                correta: false,
-                explicacao: "Nunca compartilhe sua senha, mesmo em troca de recompensas."
-            },
-            {
-                texto: "Enviar a senha apenas se a pessoa parecer confiável.",
-                correta: false,
-                explicacao: "A aparência de confiança não garante segurança."
-            }
-        ]
-    },
-
-    {
-        personagem: "Dona Verifica",
-        emoji: "🔎",
-        fala: "Investigue antes de acreditar!",
-
-        pergunta: "Você encontra uma notícia muito assustadora nas redes sociais, mas não sabe se é verdadeira. O que fazer?",
-
-        alternativas: [
-            {
-                texto: "Compartilhar rapidamente para avisar seus amigos.",
-                correta: false,
-                explicacao: "Compartilhar sem verificar pode espalhar desinformação."
-            },
-            {
-                texto: "Acreditar porque muitas pessoas comentaram.",
-                correta: false,
-                explicacao: "Muitos comentários não comprovam que uma informação seja verdadeira."
-            },
-            {
-                texto: "Pesquisar em fontes confiáveis antes de compartilhar.",
-                correta: true,
-                explicacao: "Correto! Verifique a origem, a data e a confirmação da notícia."
-            }
-        ]
-    },
-
-    {
-        personagem: "Escudo Digital",
-        emoji: "🛡️",
-        fala: "Sua conta merece uma proteção extra!",
-
-        pergunta: "Qual atitude ajuda a proteger uma conta contra invasões?",
-
-        alternativas: [
-            {
-                texto: "Deixar a conta sem nenhuma proteção adicional.",
-                correta: false,
-                explicacao: "A ausência de proteções extras pode facilitar invasões."
-            },
-            {
-                texto: "Ativar a verificação em duas etapas.",
-                correta: true,
-                explicacao: "Correto! A verificação em duas etapas cria uma camada adicional de segurança."
-            },
-            {
-                texto: "Anotar a senha em comentários públicos.",
-                correta: false,
-                explicacao: "Nunca deixe suas senhas expostas em locais públicos."
-            }
-        ]
-    },
-
-    {
-        personagem: "Guardiã Consciente",
-        emoji: "🌐",
-        fala: "Você está quase salvando a cidade!",
-
-        pergunta: "Ao utilizar um computador público, qual atitude é mais segura?",
-
-        alternativas: [
-            {
-                texto: "Salvar a senha para facilitar o próximo acesso.",
-                correta: false,
-                explicacao: "Salvar senhas em computadores públicos pode permitir que outras pessoas acessem sua conta."
-            },
-            {
-                texto: "Deixar a conta aberta para voltar depois.",
-                correta: false,
-                explicacao: "Deixar uma conta aberta permite que outras pessoas acessem suas informações."
-            },
-            {
-                texto: "Sair da conta e não salvar a senha ao terminar.",
-                correta: true,
-                explicacao: "Correto! Sempre encerre sua sessão e evite deixar seus dados armazenados."
-            }
-        ]
-    }
-
+  {
+    personagem: "Guardiã Consciente",
+    emoji: "🌟",
+    fala: "Você está quase concluindo sua missão!",
+    pergunta: "Qual conjunto de atitudes demonstra cidadania digital?",
+    alternativas: [
+      {
+        texto: "Respeitar as pessoas, proteger dados e verificar informações antes de compartilhar.",
+        tipo: "atalho",
+        explicacao: "Excelente! Essa combinação representa uma postura responsável no ambiente digital."
+      },
+      {
+        texto: "Usar linguagem respeitosa e pensar antes de publicar.",
+        tipo: "normal",
+        explicacao: "Boa escolha! Respeito e responsabilidade fazem parte da cidadania digital."
+      },
+      {
+        texto: "Manter aplicativos atualizados e usar senhas diferentes nas contas.",
+        tipo: "normal",
+        explicacao: "Boa atitude! Atualizações e senhas diferentes ajudam a proteger suas contas."
+      }
+    ]
+  }
 ];
 
-
-/* CONFIGURAÇÃO DAS DUAS ROTAS
-
-   Os atalhos são definidos internamente.
-   Não são apresentados na tela de escolha.
-
-   A posição 0 corresponde à primeira pergunta.
+/*
+  Cada rota tem exatamente quatro desafios de Game Over.
+  Os índices começam em zero:
+  0 = primeira pergunta; 9 = décima pergunta.
 */
 
 const rotas = {
+  aurora: {
+    nome: "Trilha Aurora",
+    gameOvers: [0, 2, 4, 8]
+  },
 
-    aurora: {
-        nome: "Trilha Aurora",
-
-        perguntas: perguntas,
-
-        atalhos: {
-            0: 2,
-            2: 2,
-            5: 2,
-            7: 2
-        }
-    },
-
-    oceano: {
-        nome: "Trilha Oceano",
-
-        perguntas: perguntas,
-
-        atalhos: {
-            4: 2
-        }
-    }
-
+  oceano: {
+    nome: "Trilha Oceano",
+    gameOvers: [0, 2, 4, 8]
+  }
 };
 
-
-/* VARIÁVEIS DO JOGO */
-
 let rotaAtual = null;
-
+let chaveRota = null;
 let posicao = 0;
-
 let perguntaAtual = 0;
-
 let respostaSelecionada = false;
-
 let jogoEncerrado = false;
-
-
-/* CONTROLE DAS TELAS */
+let temporizadorDerrota = null;
 
 function mostrarTela(tela) {
+  [telaInicial, telaRotas, telaJogo, telaFinal].forEach((elemento) => {
+    elemento.classList.add("escondido");
+  });
 
-    telaInicial.classList.add("escondido");
-    telaRotas.classList.add("escondido");
-    telaJogo.classList.add("escondido");
-    telaFinal.classList.add("escondido");
-
-    tela.classList.remove("escondido");
-
+  tela.classList.remove("escondido");
 }
-
-
-/* BOTÃO INICIAR */
 
 botaoIniciar.addEventListener("click", () => {
-
-    mostrarTela(telaRotas);
-
+  mostrarTela(telaRotas);
 });
 
-
-/* ESCOLHA DA ROTA */
-
-document.querySelectorAll(".rota").forEach(botao => {
-
-    botao.addEventListener("click", () => {
-
-        const escolha = botao.dataset.rota;
-
-        iniciarJogo(escolha);
-
-    });
-
+document.querySelectorAll(".rota").forEach((botao) => {
+  botao.addEventListener("click", () => {
+    iniciarJogo(botao.dataset.rota);
+  });
 });
 
+function iniciarJogo(chave) {
+  if (!rotas[chave]) return;
 
-/* INICIAR UMA NOVA PARTIDA */
+  if (temporizadorDerrota) {
+    clearTimeout(temporizadorDerrota);
+    temporizadorDerrota = null;
+  }
 
-function iniciarJogo(escolha) {
+  chaveRota = chave;
+  rotaAtual = rotas[chave];
 
-    rotaAtual = rotas[escolha];
+  posicao = 0;
+  perguntaAtual = 0;
+  respostaSelecionada = false;
+  jogoEncerrado = false;
 
-    posicao = 0;
+  nomeRota.textContent = rotaAtual.nome;
 
-    perguntaAtual = 0;
-
-    respostaSelecionada = false;
-
-    jogoEncerrado = false;
-
-    nomeRota.textContent = rotaAtual.nome;
-
-    barraProgresso.style.width = "0%";
-
-    emojiPersonagem.textContent = "🕵️";
-
-    nomePersonagem.textContent = "Detetive Dado";
-
-    falaPersonagem.textContent = "Vamos proteger a cidade!";
-
-    feedback.textContent = "";
-
-    feedback.className = "feedback";
-
-    botaoContinuar.classList.add("escondido");
-
-    criarTabuleiro();
-
-    atualizarTabuleiro();
-
-    mostrarTela(telaJogo);
-
-    carregarPergunta();
-
+  mostrarTela(telaJogo);
+  carregarPergunta();
 }
-
-
-/* CRIAR AS DEZ CASAS DO TABULEIRO */
-
-function criarTabuleiro() {
-
-    casasTabuleiro.innerHTML = "";
-
-    for (let i = 1; i <= 10; i++) {
-
-        const casa = document.createElement("div");
-
-        casa.classList.add("casa");
-
-        casa.textContent = i;
-
-        casa.dataset.numero = i;
-
-        casasTabuleiro.appendChild(casa);
-
-    }
-
-}
-
-
-/* ATUALIZAR A POSIÇÃO DO PERSONAGEM */
 
 function atualizarTabuleiro() {
+  casasTabuleiro.innerHTML = "";
 
-    const casas = document.querySelectorAll(".casa");
+  for (let i = 0; i < perguntas.length; i++) {
+    const casa = document.createElement("div");
 
-    casas.forEach((casa, indice) => {
+    casa.className = "casa";
 
-        casa.classList.remove("atual", "concluida");
+    if (i < posicao) {
+      casa.classList.add("concluida");
+      casa.textContent = "✓";
+    } else if (i === posicao && posicao < perguntas.length) {
+      casa.classList.add("atual");
+      casa.textContent = "🛡️";
+    } else {
+      casa.textContent = String(i + 1);
+    }
 
-        const numeroCasa = indice + 1;
+    casasTabuleiro.appendChild(casa);
+  }
 
-        if (numeroCasa <= posicao) {
+  const porcentagem = Math.min(
+    (posicao / perguntas.length) * 100,
+    100
+  );
 
-            casa.classList.add("concluida");
-
-        }
-
-        if (numeroCasa === posicao) {
-
-            casa.classList.add("atual");
-
-        }
-
-    });
-
-    barraProgresso.style.width = (posicao / 10 * 100) + "%";
-
+  barraProgresso.style.width = `${porcentagem}%`;
 }
-
-
-/* CARREGAR A PERGUNTA ATUAL */
 
 function carregarPergunta() {
+  if (jogoEncerrado) return;
 
-    if (posicao >= 10) {
+  if (posicao >= perguntas.length) {
+    finalizarVitoria();
+    return;
+  }
 
-        finalizarVitoria();
+  perguntaAtual = posicao;
+  respostaSelecionada = false;
 
-        return;
+  const dados = perguntas[perguntaAtual];
+  const ehGameOver = rotaAtual.gameOvers.includes(perguntaAtual);
 
-    }
+  contador.textContent =
+    `Desafio ${perguntaAtual + 1} de ${perguntas.length}`;
 
-    perguntaAtual = posicao;
+  emojiPersonagem.textContent = dados.emoji;
+  nomePersonagem.textContent = dados.personagem;
+  falaPersonagem.textContent = dados.fala;
 
-    respostaSelecionada = false;
+  perguntaElemento.textContent = dados.pergunta;
 
-    const desafio = rotaAtual.perguntas[perguntaAtual];
+  feedback.textContent = "";
+  feedback.className = "feedback";
 
-    contador.textContent =
-        "Desafio " + (perguntaAtual + 1) + " de 10";
+  alternativasElemento.innerHTML = "";
 
-    pergunta.textContent = desafio.pergunta;
+  botaoContinuar.classList.add("escondido");
+  botaoContinuar.textContent = "Continuar →";
 
-    emojiPersonagem.textContent = desafio.emoji;
+  dados.alternativas.forEach((opcao, indice) => {
+    const botao = document.createElement("button");
 
-    nomePersonagem.textContent = desafio.personagem;
+    botao.type = "button";
+    botao.className = "alternativa";
+    botao.textContent = opcao.texto;
 
-    falaPersonagem.textContent = desafio.fala;
-
-    alternativas.innerHTML = "";
-
-    feedback.textContent = "";
-
-    feedback.className = "feedback";
-
-    botaoContinuar.classList.add("escondido");
-
-    desafio.alternativas.forEach((opcao, indice) => {
-
-        const botao = document.createElement("button");
-
-        botao.classList.add("alternativa");
-
-        botao.textContent = opcao.texto;
-
-        botao.addEventListener("click", () => {
-
-            responderPergunta(indice);
-
-        });
-
-        alternativas.appendChild(botao);
-
+    botao.addEventListener("click", () => {
+      responderPergunta(indice);
     });
 
+    alternativasElemento.appendChild(botao);
+  });
+
+  console.info(
+    `Rota ${chaveRota} | Pergunta ${perguntaAtual + 1} | ${ehGameOver ? "GAME OVER" : "SEM GAME OVER"}`
+  );
+
+  atualizarTabuleiro();
 }
-
-
-/* RESPONDER À PERGUNTA */
 
 function responderPergunta(indice) {
+  if (jogoEncerrado || respostaSelecionada) return;
 
-    if (respostaSelecionada || jogoEncerrado) {
+  const dados = perguntas[perguntaAtual];
+  const ehGameOver = rotaAtual.gameOvers.includes(perguntaAtual);
+  const resposta = dados.alternativas[indice];
 
-        return;
+  if (!resposta) return;
 
-    }
+  respostaSelecionada = true;
 
-    respostaSelecionada = true;
+  const botoes = alternativasElemento.querySelectorAll("button");
 
-    const desafio = rotaAtual.perguntas[perguntaAtual];
+  botoes.forEach((botao) => {
+    botao.disabled = true;
+  });
 
-    const resposta = desafio.alternativas[indice];
+  if (ehGameOver) {
+    // Nos quatro desafios especiais, somente a alternativa correta salva a missão.
 
-    const botoes = document.querySelectorAll(".alternativa");
-
-    botoes.forEach((botao, i) => {
-
-        botao.disabled = true;
-
-        if (desafio.alternativas[i].correta) {
-
-            botao.classList.add("correta");
-
-        }
-
-        if (i === indice && !resposta.correta) {
-
-            botao.classList.add("errada");
-
-        }
-
+    const indiceCorreto = dados.alternativas.findIndex((opcao) => {
+      return opcao.correta;
     });
 
+    botoes[indiceCorreto]?.classList.add("correta");
 
-    /* RESPOSTA ERRADA: GAME OVER */
+    if (indice !== indiceCorreto) {
+      botoes[indice]?.classList.add("errada");
 
-    if (!resposta.correta) {
+      feedback.textContent = `✗ ${resposta.explicacao}`;
+      feedback.className = "feedback erro";
 
-        feedback.textContent =
-            "❌ " + resposta.explicacao;
+      jogoEncerrado = true;
 
-        feedback.className = "feedback erro";
+      temporizadorDerrota = setTimeout(() => {
+        finalizarDerrota(resposta.explicacao);
+      }, 1500);
 
-        jogoEncerrado = true;
-
-        setTimeout(() => {
-
-            finalizarDerrota(resposta.explicacao);
-
-        }, 1600);
-
-        return;
-
+      return;
     }
 
-
-    /* RESPOSTA CORRETA */
+    botoes[indice]?.classList.add("correta");
 
     feedback.textContent =
-        "✅ " + resposta.explicacao;
+      `✓ ${resposta.explicacao}\nVocê superou um desafio especial! Avançou uma casa.`;
 
-    feedback.className = "feedback sucesso";
+    feedback.className = "feedback acerto";
 
+    posicao += 1;
 
-    /* VERIFICAR SE EXISTE UM ATALHO */
+  } else {
+    // Nos outros seis desafios, as três alternativas permitem continuar.
+    // Uma é a melhor escolha e dá atalho; as outras duas avançam uma casa.
 
-    const tamanhoAtalho = rotaAtual.atalhos[perguntaAtual] || 0;
+    const ehAtalho = resposta.tipo === "atalho";
 
-    const avancar = 1 + tamanhoAtalho;
+    botoes[indice]?.classList.add(
+      ehAtalho ? "correta" : "boa-escolha"
+    );
 
-    const novaPosicao = Math.min(10, posicao + avancar);
+    if (ehAtalho) {
+      feedback.textContent =
+        `⭐ ${resposta.explicacao}\nATALHO ENCONTRADO! Você avançou 3 casas (2 extras).`;
 
+      feedback.className = "feedback acerto";
 
-    /* MENSAGEM DE MOVIMENTAÇÃO */
-
-    if (tamanhoAtalho > 0) {
-
-        const casasPuladas = novaPosicao - posicao - 1;
-
-        if (casasPuladas > 0) {
-
-            feedback.textContent +=
-                "\n\n⚡ ATALHO ENCONTRADO! Você avançou " +
-                avancar + " casas e pulou " +
-                casasPuladas +
-                " desafio(s)!";
-
-        }
+      posicao += 3;
 
     } else {
+      feedback.textContent =
+        `✓ ${resposta.explicacao}\nBoa escolha! Você avançou uma casa.`;
 
-        feedback.textContent +=
-            "\n\nVocê avançou uma casa no percurso!";
+      feedback.className = "feedback acerto";
 
+      posicao += 1;
     }
+  }
 
+  posicao = Math.min(posicao, perguntas.length);
 
-    posicao = novaPosicao;
+  atualizarTabuleiro();
 
-    atualizarTabuleiro();
+  botaoContinuar.textContent =
+    posicao >= perguntas.length
+      ? "Concluir missão 🏆"
+      : "Continuar →";
 
-    botaoContinuar.textContent =
-        posicao >= 10 ? "Concluir missão 🏆" : "Avançar →";
-
-    botaoContinuar.classList.remove("escondido");
-
+  botaoContinuar.classList.remove("escondido");
 }
-
-
-/* BOTÃO AVANÇAR */
 
 botaoContinuar.addEventListener("click", () => {
+  if (jogoEncerrado) return;
 
-    if (jogoEncerrado) {
-
-        return;
-
-    }
-
-    if (posicao >= 10) {
-
-        finalizarVitoria();
-
-    } else {
-
-        carregarPergunta();
-
-    }
-
+  carregarPergunta();
 });
 
+function finalizarDerrota(mensagem) {
+  jogoEncerrado = true;
 
-/* FINAL DE VITÓRIA */
+  emojiFinal.textContent = "💔";
+  etiquetaFinal.textContent = "FIM DE JOGO";
+  tituloFinal.textContent = "Game Over!";
+
+  textoFinal.textContent =
+    `${mensagem}\n\nSua missão foi interrompida. Tente novamente e aprenda a navegar com mais segurança!`;
+
+  mostrarTela(telaFinal);
+}
 
 function finalizarVitoria() {
+  jogoEncerrado = true;
 
-    jogoEncerrado = true;
+  emojiFinal.textContent = "🏆";
+  etiquetaFinal.textContent = "MISSÃO CONCLUÍDA";
+  tituloFinal.textContent = "Parabéns, Guardião!";
 
-    emojiFinal.textContent = "🏆";
+  textoFinal.textContent =
+    `Você concluiu a ${rotaAtual.nome} e mostrou que sabe agir com responsabilidade, respeito e segurança no mundo digital!`;
 
-    etiquetaFinal.textContent = "MISSÃO CONCLUÍDA";
-
-    tituloFinal.textContent = "Você conseguiu!";
-
-    textoFinal.textContent =
-        "Parabéns, Guardião! Você conseguiu atravessar a " +
-        rotaAtual.nome +
-        " e chegou ao castelo! Suas escolhas ajudaram a proteger " +
-        "a cidade digital. Você demonstrou conhecimento e atenção " +
-        "sobre segurança na internet!";
-
-    mostrarTela(telaFinal);
-
+  mostrarTela(telaFinal);
 }
-
-
-/* FINAL DE DERROTA / GAME OVER */
-
-function finalizarDerrota(explicacao) {
-
-    jogoEncerrado = true;
-
-    emojiFinal.textContent = "💔";
-
-    etiquetaFinal.textContent = "GAME OVER";
-
-    tituloFinal.textContent = "Sua missão foi interrompida!";
-
-    textoFinal.textContent =
-        "Uma escolha perigosa colocou a cidade digital em risco. " +
-        "Não desanime! Aprenda com o desafio e tente novamente. " +
-        "Lembre-se: " + explicacao;
-
-    mostrarTela(telaFinal);
-
-}
-
-
-/* JOGAR NOVAMENTE */
 
 botaoNovamente.addEventListener("click", () => {
-
-    mostrarTela(telaRotas);
-
+  iniciarJogo(chaveRota);
 });
 
-
-/* ESCOLHER OUTRO CAMINHO */
-
 botaoEscolherRota.addEventListener("click", () => {
+  if (temporizadorDerrota) {
+    clearTimeout(temporizadorDerrota);
+    temporizadorDerrota = null;
+  }
 
-    mostrarTela(telaRotas);
+  jogoEncerrado = false;
 
+  mostrarTela(telaRotas);
 });
