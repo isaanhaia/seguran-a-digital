@@ -1,3 +1,8 @@
+/* ==========================================
+   GUARDIÕES DA INTERNET
+   Criadoras: Sofia Alixandrini e Isabela Mendes
+   ========================================== */
+
 const $ = (seletor) => document.querySelector(seletor);
 
 const telaInicial = $("#tela-inicial");
@@ -28,14 +33,18 @@ const etiquetaFinal = $("#etiqueta-final");
 const tituloFinal = $("#titulo-final");
 const textoFinal = $("#texto-final");
 
-/*
-  TIPOS DE DESAFIO
+/* ==========================================
+   PERGUNTAS E ALTERNATIVAS
+   ==========================================
 
-  gameOver: uma resposta segura e duas respostas perigosas.
-            Qualquer resposta errada encerra a partida.
+   tipo: "atalho" = avança 3 casas
+   tipo: "normal" = avança 1 casa
 
-  normal:   as três respostas são aceitáveis.
-            "atalho" avança 3 casas; "normal" avança 1 casa.
+   trocaRota: true = muda para o outro caminho
+
+   Nos desafios Game Over:
+   correta: true = resposta segura
+   Qualquer outra resposta encerra o jogo.
 */
 
 const perguntas = [
@@ -53,6 +62,7 @@ const perguntas = [
       {
         texto: "Não enviar a senha e conferir a situação pelo aplicativo ou site oficial.",
         correta: true,
+        trocaRota: true,
         explicacao: "Correto! Confira avisos diretamente nos canais oficiais e nunca compartilhe sua senha."
       },
       {
@@ -72,6 +82,7 @@ const perguntas = [
       {
         texto: "Revisar as configurações de privacidade e limitar quem vê suas publicações.",
         tipo: "atalho",
+        trocaRota: true,
         explicacao: "Ótima escolha! Revisar a privacidade ajuda a controlar quem acessa suas informações."
       },
       {
@@ -106,6 +117,7 @@ const perguntas = [
       {
         texto: "Não clicar e verificar a promoção nos canais oficiais da empresa.",
         correta: true,
+        trocaRota: true,
         explicacao: "Correto! Desconfie de prêmios inesperados e confirme a informação por canais oficiais."
       }
     ]
@@ -125,6 +137,7 @@ const perguntas = [
       {
         texto: "Conferir se a foto não mostra informações pessoais ou localização.",
         tipo: "normal",
+        trocaRota: true,
         explicacao: "Boa escolha! Observe o que aparece na imagem antes de publicar."
       },
       {
@@ -154,6 +167,7 @@ const perguntas = [
       {
         texto: "Não compartilhar, apoiar a vítima e procurar ajuda de um adulto de confiança.",
         correta: true,
+        trocaRota: true,
         explicacao: "Correto! Não espalhe as ofensas, apoie a vítima e procure ajuda."
       }
     ]
@@ -168,6 +182,7 @@ const perguntas = [
       {
         texto: "Manter informações pessoais e localização fora das conversas.",
         tipo: "normal",
+        trocaRota: true,
         explicacao: "Boa escolha! Evitar dados pessoais ajuda a preservar sua privacidade."
       },
       {
@@ -192,6 +207,7 @@ const perguntas = [
       {
         texto: "Ativar a verificação em duas etapas, se o jogo oferecer esse recurso.",
         tipo: "atalho",
+        trocaRota: true,
         explicacao: "Ótima escolha! A verificação em duas etapas adiciona uma camada de proteção à conta."
       },
       {
@@ -216,6 +232,7 @@ const perguntas = [
       {
         texto: "Conferir a data, a origem e se outros veículos confiáveis confirmam a informação.",
         tipo: "atalho",
+        trocaRota: true,
         explicacao: "Excelente! Conferir origem, data e outras fontes é uma ótima forma de verificar."
       },
       {
@@ -250,6 +267,7 @@ const perguntas = [
       {
         texto: "Sair da conta, não salvar a senha e fechar o navegador.",
         correta: true,
+        trocaRota: true,
         explicacao: "Correto! Encerre a sessão e não deixe seus dados salvos em computadores públicos."
       }
     ]
@@ -264,6 +282,7 @@ const perguntas = [
       {
         texto: "Respeitar as pessoas, proteger dados e verificar informações antes de compartilhar.",
         tipo: "atalho",
+        trocaRota: true,
         explicacao: "Excelente! Essa combinação representa uma postura responsável no ambiente digital."
       },
       {
@@ -280,11 +299,9 @@ const perguntas = [
   }
 ];
 
-/*
-  Cada rota tem exatamente quatro desafios de Game Over.
-  Os índices começam em zero:
-  0 = primeira pergunta; 9 = décima pergunta.
-*/
+/* ==========================================
+   CONFIGURAÇÃO DAS ROTAS
+   ========================================== */
 
 const rotas = {
   aurora: {
@@ -298,6 +315,10 @@ const rotas = {
   }
 };
 
+/* ==========================================
+   VARIÁVEIS DO JOGO
+   ========================================== */
+
 let rotaAtual = null;
 let chaveRota = null;
 let posicao = 0;
@@ -306,8 +327,17 @@ let respostaSelecionada = false;
 let jogoEncerrado = false;
 let temporizadorDerrota = null;
 
+/* ==========================================
+   TROCA DE TELAS
+   ========================================== */
+
 function mostrarTela(tela) {
-  [telaInicial, telaRotas, telaJogo, telaFinal].forEach((elemento) => {
+  [
+    telaInicial,
+    telaRotas,
+    telaJogo,
+    telaFinal
+  ].forEach((elemento) => {
     elemento.classList.add("escondido");
   });
 
@@ -317,6 +347,10 @@ function mostrarTela(tela) {
 botaoIniciar.addEventListener("click", () => {
   mostrarTela(telaRotas);
 });
+
+/* ==========================================
+   ESCOLHA DA ROTA INICIAL
+   ========================================== */
 
 document.querySelectorAll(".rota").forEach((botao) => {
   botao.addEventListener("click", () => {
@@ -345,6 +379,30 @@ function iniciarJogo(chave) {
   mostrarTela(telaJogo);
   carregarPergunta();
 }
+
+/* ==========================================
+   FUNÇÃO PARA TROCAR DE CAMINHO
+   ========================================== */
+
+function trocarDeRota() {
+  const rotaAnterior = rotaAtual.nome;
+
+  if (chaveRota === "aurora") {
+    chaveRota = "oceano";
+  } else {
+    chaveRota = "aurora";
+  }
+
+  rotaAtual = rotas[chaveRota];
+
+  nomeRota.textContent = rotaAtual.nome;
+
+  return `\n🔀 MUDANÇA DE CAMINHO! Você saiu da ${rotaAnterior} e entrou na ${rotaAtual.nome}!`;
+}
+
+/* ==========================================
+   TABULEIRO E PROGRESSO
+   ========================================== */
 
 function atualizarTabuleiro() {
   casasTabuleiro.innerHTML = "";
@@ -375,6 +433,10 @@ function atualizarTabuleiro() {
   barraProgresso.style.width = `${porcentagem}%`;
 }
 
+/* ==========================================
+   CARREGAR PERGUNTA
+   ========================================== */
+
 function carregarPergunta() {
   if (jogoEncerrado) return;
 
@@ -387,7 +449,9 @@ function carregarPergunta() {
   respostaSelecionada = false;
 
   const dados = perguntas[perguntaAtual];
-  const ehGameOver = rotaAtual.gameOvers.includes(perguntaAtual);
+
+  const ehGameOver =
+    rotaAtual.gameOvers.includes(perguntaAtual);
 
   contador.textContent =
     `Desafio ${perguntaAtual + 1} de ${perguntas.length}`;
@@ -421,42 +485,51 @@ function carregarPergunta() {
   });
 
   console.info(
-    `Rota ${chaveRota} | Pergunta ${perguntaAtual + 1} | ${ehGameOver ? "GAME OVER" : "SEM GAME OVER"}`
+    `Rota: ${chaveRota} | Pergunta: ${perguntaAtual + 1} | Game Over: ${ehGameOver}`
   );
 
   atualizarTabuleiro();
 }
 
+/* ==========================================
+   RESPONDER PERGUNTA
+   ========================================== */
+
 function responderPergunta(indice) {
   if (jogoEncerrado || respostaSelecionada) return;
 
   const dados = perguntas[perguntaAtual];
-  const ehGameOver = rotaAtual.gameOvers.includes(perguntaAtual);
+
+  const ehGameOver =
+    rotaAtual.gameOvers.includes(perguntaAtual);
+
   const resposta = dados.alternativas[indice];
 
   if (!resposta) return;
 
   respostaSelecionada = true;
 
-  const botoes = alternativasElemento.querySelectorAll("button");
+  const botoes =
+    alternativasElemento.querySelectorAll("button");
 
   botoes.forEach((botao) => {
     botao.disabled = true;
   });
 
-  if (ehGameOver) {
-    // Nos quatro desafios especiais, somente a alternativa correta salva a missão.
+  /* DESAFIOS GAME OVER */
 
-    const indiceCorreto = dados.alternativas.findIndex((opcao) => {
-      return opcao.correta;
-    });
+  if (ehGameOver) {
+    const indiceCorreto =
+      dados.alternativas.findIndex((opcao) => opcao.correta);
 
     botoes[indiceCorreto]?.classList.add("correta");
 
     if (indice !== indiceCorreto) {
       botoes[indice]?.classList.add("errada");
 
-      feedback.textContent = `✗ ${resposta.explicacao}`;
+      feedback.textContent =
+        `✗ ${resposta.explicacao}`;
+
       feedback.className = "feedback erro";
 
       jogoEncerrado = true;
@@ -477,10 +550,15 @@ function responderPergunta(indice) {
 
     posicao += 1;
 
-  } else {
-    // Nos outros seis desafios, as três alternativas permitem continuar.
-    // Uma é a melhor escolha e dá atalho; as outras duas avançam uma casa.
+    // A resposta correta também troca o caminho.
+    if (resposta.trocaRota) {
+      feedback.textContent += trocarDeRota();
+    }
+  }
 
+  /* DESAFIOS NORMAIS */
+
+  else {
     const ehAtalho = resposta.tipo === "atalho";
 
     botoes[indice]?.classList.add(
@@ -503,6 +581,11 @@ function responderPergunta(indice) {
 
       posicao += 1;
     }
+
+    // Algumas respostas também levam para a outra trilha.
+    if (resposta.trocaRota) {
+      feedback.textContent += trocarDeRota();
+    }
   }
 
   posicao = Math.min(posicao, perguntas.length);
@@ -517,11 +600,19 @@ function responderPergunta(indice) {
   botaoContinuar.classList.remove("escondido");
 }
 
+/* ==========================================
+   CONTINUAR JOGO
+   ========================================== */
+
 botaoContinuar.addEventListener("click", () => {
   if (jogoEncerrado) return;
 
   carregarPergunta();
 });
+
+/* ==========================================
+   FINALIZAR PARTIDA
+   ========================================== */
 
 function finalizarDerrota(mensagem) {
   jogoEncerrado = true;
@@ -544,10 +635,14 @@ function finalizarVitoria() {
   tituloFinal.textContent = "Parabéns, Guardião!";
 
   textoFinal.textContent =
-    `Você concluiu a ${rotaAtual.nome} e mostrou que sabe agir com responsabilidade, respeito e segurança no mundo digital!`;
+    `Você concluiu a aventura e mostrou que sabe agir com responsabilidade, respeito e segurança no mundo digital!`;
 
   mostrarTela(telaFinal);
 }
+
+/* ==========================================
+   BOTÕES DA TELA FINAL
+   ========================================== */
 
 botaoNovamente.addEventListener("click", () => {
   iniciarJogo(chaveRota);
